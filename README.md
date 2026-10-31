@@ -23,9 +23,11 @@ Browser (HP)
  └─ AR: Google <model-viewer> (WebXR / Scene Viewer / Quick Look)
 ```
 
-- **Instant** (`gemma-4-26b-a4b-it`, MoE, thinking minimal) dipakai sebagai default. **Deep** (`gemma-4-31b-it`, dense, thinking high) untuk analisa yang lebih teliti.
+- **Instant** (`gemma-4-26b-a4b-it`, MoE dengan ±4B parameter aktif) dipakai sebagai default. **Deep** (`gemma-4-31b-it`, dense) untuk analisa yang lebih teliti, dan otomatis dialihkan ke Instant kalau server sedang sibuk. Thinking dimatikan di kedua mode supaya cepat.
+- Setiap analisa terdiri dari dua panggilan Gemma yang berjalan paralel: analisa ruang dan warna, lalu rekomendasi furniture dan prompt render. Jawabannya dalam Bahasa Inggris, dengan JSON mode.
 - API key hanya ada di server. Repo ini publik, dan key tidak pernah dikirim ke browser.
-- Tombol "Coba dengan foto contoh" memuat hasil Gemma yang sudah tersimpan, jadi demo tetap jalan walaupun jaringan bermasalah.
+- Tombol "Try the sample photo" memuat hasil Gemma yang sudah tersimpan (plus render statis), jadi demo tetap jalan walaupun jaringan bermasalah.
+- Tampilan mengikuti design system "Architectural Sapphire": permukaan putih, garis tipis, aksen biru safir, dan font Plus Jakarta Sans.
 
 ## Menjalankan
 
@@ -60,3 +62,7 @@ AR butuh HTTPS. Untuk mengetesnya di HP, gunakan URL deploy Vercel.
 - Konsep render: [Pollinations](https://pollinations.ai)
 - AR: [Google &lt;model-viewer&gt;](https://modelviewer.dev)
 - Analisa ruangan: Gemma 4 lewat Gemini API
+
+## Lisensi
+
+[MIT](LICENSE) © 2026 Ahmad Miftahul Zaki

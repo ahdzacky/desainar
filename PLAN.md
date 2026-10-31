@@ -3,7 +3,7 @@
 **Event:** Hacktoberfest Hack Day Kota Batam x Batam Innovation Center (MLH), Sabtu 31 Oktober 2026, **11:00–16:00 WIB**
 **Kategori yang dikejar:** Best Use of Gemma 4 · Best Open-Source AI Project
 **Tim:** 2 orang (A = coding utama, B = aset 3D, tes HP, submission)
-**Ide & skema JSON lengkap:** [desainar.md](desainar.md)
+**Ide awal:** dokumen ide dan mockup disimpan secara lokal di `plan/`, tidak di-commit. Skema JSON yang dipakai app ada di `server/analyze.js`.
 
 ---
 
@@ -19,6 +19,9 @@
 | 6 | Analisa dipecah jadi **dua panggilan Gemma paralel** (analisa ruang + warna, dan rekomendasi + prompt render). Thinking dimatikan. | Hasil spike: JSON mode diterima Gemma 4. Satu panggilan butuh 21–26 detik, sebagian besar karena antrean server. Kalau panggilan rekomendasi gagal, pilihan furniture diisi dari katalog. |
 | 7 | Tiap analisa diberi jatah waktu total 55 detik. Percobaan ulang hanya dilakukan kalau sisa waktunya cukup, dan mode Deep otomatis pindah ke Instant. | `gemma-4-31b-it` sering membalas 503 atau 504 saat ramai, sementara Vercel membatasi function 60 detik. |
 | 8 | Render Pollinations dimuat **dari browser dulu**, dengan proxy `/api/render` sebagai cadangan (tanpa batas kalau env `POLLINATIONS_KEY` diisi). Foto contoh punya render statis. | Layanan gratis Pollinations membatasi 1 gambar per 45 detik per IP dan membalas 402 berupa gambar error. IP server Vercel dipakai bersama, jadi jatahnya sering sudah habis. |
+| 9 | Tampilan diganti ke design system **"Architectural Sapphire"** (dari desain Stitch tim): tema terang, aksen biru `#1d4ed8`, garis tipis. Logo DESAINAR hanya memberi warna biru pada "AI" dan "AR", tanpa garis bawah. | Permintaan tim. Yang dipakai hanya token gaya; kode `code.html` dari Stitch tidak disalin. |
+| 10 | Seluruh teks app dan jawaban Gemma memakai **Bahasa Inggris**. Footer menampilkan copyright. | Permintaan tim. |
+| 11 | Repo memakai **lisensi MIT** (`LICENSE`), © 2026 Ahmad Miftahul Zaki. | Permintaan tim. Cocok untuk kategori Best Open-Source AI Project. |
 
 ## 2. Lingkup
 
