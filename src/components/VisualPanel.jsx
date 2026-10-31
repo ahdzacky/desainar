@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Camera, ImageIcon, ImageUp, LoaderCircle, RefreshCw, ScanEye, Sparkles, WandSparkles } from 'lucide-react';
 import { ROOM_TYPES, findRoom } from '../data/options.js';
+import { useCameraMode } from '../lib/camera.js';
 import { loadRender } from '../lib/render.js';
+import WebcamCapture from './WebcamCapture.jsx';
 
 const TABS = [
   { id: 'orig', label: 'Original', icon: ImageIcon },
@@ -24,14 +26,34 @@ const ZONE_STYLES = [
   { box: 'border-primary-deep bg-primary-deep/15', tag: 'bg-primary-deep' },
 ];
 
-function PhotoButton({ capture, icon: Icon, label, onFile, variant = 'secondary' }) {
-  const styles = {
-    primary: 'bg-primary text-white hover:bg-primary-deep px-3 py-2.5',
-    secondary: 'border border-hairline bg-surface text-slate hover:border-primary hover:text-primary px-3 py-2.5',
-    floating: 'border border-hairline bg-surface/95 text-ink shadow-overlay backdrop-blur-md hover:text-primary px-3 py-1.5',
-  };
+const BUTTON_BASE = 'flex items-center justify-center gap-1.5 rounded-md text-xs font-semibold transition';
+const BUTTON_STYLES = {
+  primary: 'bg-primary text-white hover:bg-primary-deep px-3 py-2.5',
+  secondary: 'border border-hairline bg-surface text-slate hover:border-primary hover:text-primary px-3 py-2.5',
+  floating: 'border border-hairline bg-surface/95 text-ink shadow-overlay backdrop-blur-md hover:text-primary px-3 py-1.5',
+};
+
+// Phones: the native camera app. Desktops: the webcam dialog, disabled when there is no camera.
+function CameraButton({ mode, onFile, onOpenWebcam, variant = 'primary' }) {
+  if (mode === 'native') return <PhotoButton capture icon={Camera} label="Camera" onFile={onFile} variant={variant} />;
+  const disabled = mode !== 'webcam';
   return (
-    <label className={`flex cursor-pointer items-center justify-center gap-1.5 rounded-md text-xs font-semibold transition ${styles[variant]}`}>
+    <button
+      type="button"
+      disabled={disabled}
+      onClick={onOpenWebcam}
+      title={disabled ? 'No camera found on this device' : 'Take a photo with your camera'}
+      className={`${BUTTON_BASE} ${BUTTON_STYLES[variant]} disabled:cursor-not-allowed disabled:opacity-40`}
+    >
+      <Camera className={`size-3.5 ${variant === 'floating' ? 'text-primary' : ''}`} />
+      Camera
+    </button>
+  );
+}
+
+function PhotoButton({ capture, icon: Icon, label, onFile, variant = 'secondary' }) {
+  return (
+    <label className={`${BUTTON_BASE} cursor-pointer ${BUTTON_STYLES[variant]}`}>
       <Icon className={`size-3.5 ${variant === 'floating' ? 'text-primary' : ''}`} />
       {label}
       <input
@@ -146,24 +168,74 @@ export default function VisualPanel({ photo, result, loading, styleName, roomTyp
     return () => clearInterval(timer);
   }, [loading]);
 
+  const cameraMode = useCameraMode();
+  const [webcamOpen, setWebcamOpen] = useState(false);
+  const [dragging, setDragging] = useState(false);
+
+  // A photo dropped next to the drop zone would make the browser open it and lose the session.
+  useEffect(() => {
+    const keep = (e) => [...(e.dataTransfer?.types ?? [])].includes('Files') && e.preventDefault();
+    window.addEventListener('dragover', keep);
+    window.addEventListener('drop', keep);
+    return () => {
+      window.removeEventListener('dragover', keep);
+      window.removeEventListener('drop', keep);
+    };
+  }, []);
+
+  const dropZone = {
+    onDragOver: (e) => {
+      if (loading || ![...e.dataTransfer.types].includes('Files')) return;
+      e.preventDefault();
+      setDragging(true);
+    },
+    onDragLeave: (e) => !e.currentTarget.contains(e.relatedTarget) && setDragging(false),
+    onDrop: (e) => {
+      e.preventDefault();
+      setDragging(false);
+      if (loading) return;
+      const file = [...e.dataTransfer.files].find((f) => f.type.startsWith('image/'));
+      if (file) onFile(file);
+    },
+  };
+
+  const webcam = webcamOpen && (
+    <WebcamCapture
+      onClose={() => setWebcamOpen(false)}
+      onCapture={(blob) => {
+        setWebcamOpen(false);
+        onFile(blob);
+      }}
+    />
+  );
+
   if (!photo) {
     return (
-      <section className="rounded-xl border border-dashed border-primary/30 bg-surface p-6 text-center">
+      <section
+        {...dropZone}
+        className={`rounded-xl border border-dashed p-6 text-center transition ${
+          dragging ? 'border-primary bg-primary-soft ring-2 ring-primary/15' : 'border-primary/30 bg-surface'
+        }`}
+      >
         <div className="mx-auto flex size-12 items-center justify-center rounded-lg bg-primary-soft">
-          <Camera className="size-6 text-primary" />
+          {dragging ? <ImageUp className="size-6 text-primary" /> : <Camera className="size-6 text-primary" />}
         </div>
-        <h2 className="mt-3 text-sm font-bold text-ink">2. Snap your room</h2>
+        <h2 className="mt-3 text-sm font-bold text-ink">{dragging ? 'Drop your room photo' : '2. Snap your room'}</h2>
         <p className="mx-auto mt-1 max-w-sm text-xs leading-relaxed text-muted">
           Gemma 4 identifies the room, maps the empty zones, reads the wall colours, then picks 3D furniture you can place in your
           room with AR.
         </p>
         <div className="mt-4 grid grid-cols-2 gap-2">
-          <PhotoButton capture icon={Camera} label="Camera" onFile={onFile} variant="primary" />
-          <PhotoButton icon={ImageUp} label="Gallery" onFile={onFile} />
+          <CameraButton mode={cameraMode} onFile={onFile} onOpenWebcam={() => setWebcamOpen(true)} />
+          <PhotoButton icon={ImageUp} label="Upload" onFile={onFile} />
         </div>
-        <button type="button" onClick={onDemo} className="mt-4 text-xs font-semibold text-primary underline-offset-4 hover:underline">
+        <p className="mt-3 text-[11px] text-muted">
+          {cameraMode === 'none' ? 'No camera found. Upload or drag & drop a photo here.' : 'or drag & drop a photo here'}
+        </p>
+        <button type="button" onClick={onDemo} className="mt-3 text-xs font-semibold text-primary underline-offset-4 hover:underline">
           Try the sample photo
         </button>
+        {webcam}
       </section>
     );
   }
@@ -197,7 +269,13 @@ export default function VisualPanel({ photo, result, loading, styleName, roomTyp
         ))}
       </div>
 
-      <div className="relative bg-subtle">
+      <div {...dropZone} className="relative bg-subtle">
+        {dragging && (
+          <div className="pointer-events-none absolute inset-0 z-30 flex flex-col items-center justify-center gap-2 border-2 border-dashed border-primary bg-primary-soft/90">
+            <ImageUp className="size-7 text-primary" />
+            <p className="text-xs font-bold text-primary">Drop to analyse a new photo</p>
+          </div>
+        )}
         {view === 'render' ? (
           <div className="relative" style={{ aspectRatio: `${photo.width} / ${photo.height}` }}>
             {render.status === 'done' ? (
@@ -248,10 +326,12 @@ export default function VisualPanel({ photo, result, loading, styleName, roomTyp
         )}
 
         {!loading && (
-          <div className="absolute top-3 right-3 z-20">
-            <PhotoButton capture icon={Camera} label="New photo" onFile={onFile} variant="floating" />
+          <div className="absolute top-3 right-3 z-20 flex gap-1.5">
+            <CameraButton mode={cameraMode} onFile={onFile} onOpenWebcam={() => setWebcamOpen(true)} variant="floating" />
+            <PhotoButton icon={ImageUp} label="Upload" onFile={onFile} variant="floating" />
           </div>
         )}
+        {webcam}
       </div>
 
       <div className="flex items-center justify-between gap-2 border-t border-hairline px-3 py-2">
