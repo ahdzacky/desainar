@@ -18,6 +18,7 @@
 | 5 | Model default `gemma-4-26b-a4b-it` (Instant). Mode Deep pakai `gemma-4-31b-it`. | Keduanya tersedia di Gemini API dan menerima input gambar. |
 | 6 | Analisa dipecah jadi **dua panggilan Gemma paralel** (analisa ruang + warna, dan rekomendasi + prompt render). Thinking dimatikan. | Hasil spike: JSON mode diterima Gemma 4. Satu panggilan butuh 21–26 detik, sebagian besar karena antrean server. Kalau panggilan rekomendasi gagal, pilihan furniture diisi dari katalog. |
 | 7 | Tiap analisa diberi jatah waktu total 55 detik. Percobaan ulang hanya dilakukan kalau sisa waktunya cukup, dan mode Deep otomatis pindah ke Instant. | `gemma-4-31b-it` sering membalas 503 atau 504 saat ramai, sementara Vercel membatasi function 60 detik. |
+| 8 | Render Pollinations dimuat **dari browser dulu**, dengan proxy `/api/render` sebagai cadangan (tanpa batas kalau env `POLLINATIONS_KEY` diisi). Foto contoh punya render statis. | Layanan gratis Pollinations membatasi 1 gambar per 45 detik per IP dan membalas 402 berupa gambar error. IP server Vercel dipakai bersama, jadi jatahnya sering sudah habis. |
 
 ## 2. Lingkup
 
