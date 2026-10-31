@@ -1,4 +1,4 @@
-import { Brain, Compass, Zap } from 'lucide-react';
+import { Brain, Zap } from 'lucide-react';
 import { MODES } from '../data/options.js';
 import Brand from './Brand.jsx';
 
@@ -9,9 +9,7 @@ export default function Header({ mode, onModeChange }) {
     <header className="sticky top-0 z-30 border-b border-hairline bg-surface/90 px-4 py-3 backdrop-blur-xl">
       <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2.5">
-          <div className="flex size-9 items-center justify-center rounded-lg bg-primary shadow-hover">
-            <Compass className="size-5 text-white" />
-          </div>
+          <img src="/icon-192.png" alt="" width="40" height="40" className="size-10 shrink-0" />
           <div>
             <h1 className="text-xl leading-none">
               <Brand />
