@@ -1,5 +1,6 @@
 {
   "photo": "/demo/room.jpg",
+  "render": "/demo/render.jpg",
   "credit": "Unsplash (Unsplash License)",
   "result": {
     "room_identification": {

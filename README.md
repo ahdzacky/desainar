@@ -18,7 +18,7 @@ Browser (HP)
  │     └─ Vercel Function → Gemini API: Gemma 4 (gemma-4-26b-a4b-it / gemma-4-31b-it)
  │           └─ JSON divalidasi: item_id harus ada di katalog, koordinat & hex dicek
  ├─ Gambar Analisa: anotasi Gemma digambar di atas foto (koordinat %)
- ├─ Desain AI: prompt dari Gemma → Pollinations (text-to-image)
+ ├─ Desain AI: prompt dari Gemma → Pollinations FLUX (dari browser dulu, lalu proxy /api/render)
  └─ AR: Google <model-viewer> (WebXR / Scene Viewer / Quick Look)
 ```
 
@@ -38,12 +38,15 @@ AR butuh HTTPS. Untuk mengetesnya di HP, gunakan URL deploy Vercel.
 
 **Deploy:** import repo ke Vercel (preset Vite), lalu set env `GEMINI_API_KEY`.
 
+**Opsional:** isi env `POLLINATIONS_KEY` dengan secret key (`sk_`) dari [enter.pollinations.ai](https://enter.pollinations.ai). Tanpa key, layanan gratis Pollinations hanya memberi 1 gambar per 45 detik per IP. Karena itu render dicoba dari browser pengguna dulu, dan proxy `/api/render` dipakai sebagai cadangan.
+
 ## Struktur
 
 | Path | Isi |
 |------|-----|
 | `server/analyze.js` | Prompt Gemma 4, pemanggilan Gemini API, validasi JSON |
 | `api/analyze.js` | Vercel Function yang membungkus `server/analyze.js` |
+| `server/render.js`, `api/render.js` | Proxy render Pollinations yang hanya meneruskan gambar asli |
 | `src/data/catalog.js` | Katalog furniture 3D (Gemma hanya boleh memilih id dari sini) |
 | `src/data/options.js` | Gaya desain, tipe ruangan, mesin Gemma |
 | `src/components/` | UI: pemilih gaya, panel visual, insight warna, panggung AR |

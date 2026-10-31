@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Camera, ImageIcon, ImageUp, LoaderCircle, RefreshCw, ScanEye, Sparkles, WandSparkles } from 'lucide-react';
 import { ROOM_TYPES, findRoom } from '../data/options.js';
-import { renderUrl } from '../lib/api.js';
+import { loadRender } from '../lib/render.js';
 
 const TABS = [
   { id: 'orig', label: 'Foto Asli', icon: ImageIcon },
@@ -106,17 +106,39 @@ function AnalysisOverlay({ annotations, currentWall, paint }) {
 export default function VisualPanel({ photo, result, loading, styleName, roomType, paint, onRoomChange, onFile, onDemo }) {
   const [tab, setTab] = useState('analysis');
   const [variant, setVariant] = useState(0);
-  const [renderStatus, setRenderStatus] = useState('loading');
+  const [render, setRender] = useState({ status: 'idle', src: '' });
   const [stage, setStage] = useState(0);
 
-  // The demo result ships a pre-rendered image for its first variant.
-  const render = result ? (variant === 0 && result.demo_render) || renderUrl(result.design_render_prompt, photo, variant) : '';
-  useEffect(() => setRenderStatus('loading'), [render]);
   useEffect(() => {
     if (!result) return;
     setTab('analysis');
     setVariant(0);
   }, [result]);
+
+  // Start the render as soon as the analysis lands, so the tab is usually ready.
+  useEffect(() => {
+    if (!result) return;
+    // The demo result ships a pre-rendered image for its first variant.
+    if (variant === 0 && result.demo_render) {
+      setRender({ status: 'done', src: result.demo_render });
+      return;
+    }
+    const controller = new AbortController();
+    let blobUrl = '';
+    setRender({ status: 'loading', src: '' });
+    loadRender(result.design_render_prompt, photo, variant, controller.signal)
+      .then((src) => {
+        blobUrl = src;
+        setRender({ status: 'done', src });
+      })
+      .catch(() => {
+        if (!controller.signal.aborted) setRender({ status: 'error', src: '' });
+      });
+    return () => {
+      controller.abort();
+      if (blobUrl) URL.revokeObjectURL(blobUrl);
+    };
+  }, [result, photo, variant]);
   useEffect(() => {
     if (!loading) return;
     setStage(0);
@@ -178,23 +200,19 @@ export default function VisualPanel({ photo, result, loading, styleName, roomTyp
       <div className="relative bg-stone-950">
         {view === 'render' ? (
           <div className="relative" style={{ aspectRatio: `${photo.width} / ${photo.height}` }}>
-            <img
-              key={render}
-              src={render}
-              alt="Konsep desain interior dari AI"
-              onLoad={() => setRenderStatus('done')}
-              onError={() => setRenderStatus('error')}
-              className={`absolute inset-0 size-full object-cover transition duration-500 ${renderStatus === 'done' ? 'opacity-100' : 'opacity-0'}`}
-            />
-            {renderStatus !== 'done' && (
+            {render.status === 'done' ? (
+              <img src={render.src} alt="Konsep desain interior dari AI" className="absolute inset-0 size-full object-cover" />
+            ) : (
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 px-6 text-center">
-                {renderStatus === 'loading' ? (
+                {render.status === 'error' ? (
+                  <p className="text-xs leading-relaxed text-red-300">
+                    Server render gratis sedang penuh (batas 1 gambar per 45 detik). Tunggu sebentar, lalu tekan "Variasi baru".
+                  </p>
+                ) : (
                   <>
                     <LoaderCircle className="size-7 animate-spin text-amber-400" />
                     <p className="text-xs font-semibold text-amber-200">Melukis konsep desain… (10–30 detik)</p>
                   </>
-                ) : (
-                  <p className="text-xs text-red-300">Render gagal dimuat. Coba variasi baru.</p>
                 )}
               </div>
             )}
