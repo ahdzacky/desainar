@@ -16,6 +16,8 @@
 | 3 | Render tab "Desain AI" pakai **Pollinations** (text-to-image, gratis, tanpa key). | Sudah dites: sekitar 7 detik per gambar. Model-nya open-weight. Konsekuensinya, gambar yang dihasilkan ruangan baru, bukan editan foto asli. |
 | 4 | **Deploy ke Vercel (import dari GitHub) di jam pertama.** | WebXR wajib HTTPS. Setiap push otomatis ter-deploy, jadi bisa langsung dites di HP. |
 | 5 | Model default `gemma-4-26b-a4b-it` (Instant). Mode Deep pakai `gemma-4-31b-it`. | Keduanya tersedia di Gemini API dan menerima input gambar. |
+| 6 | Analisa dipecah jadi **dua panggilan Gemma paralel** (analisa ruang + warna, dan rekomendasi + prompt render). Thinking dimatikan. | Hasil spike: JSON mode diterima Gemma 4. Satu panggilan butuh 21–26 detik, sebagian besar karena antrean server. Kalau panggilan rekomendasi gagal, pilihan furniture diisi dari katalog. |
+| 7 | Tiap analisa diberi jatah waktu total 55 detik. Percobaan ulang hanya dilakukan kalau sisa waktunya cukup, dan mode Deep otomatis pindah ke Instant. | `gemma-4-31b-it` sering membalas 503 atau 504 saat ramai, sementara Vercel membatasi function 60 detik. |
 
 ## 2. Lingkup
 
@@ -74,7 +76,7 @@ Catatan teknis:
 ## 6. Checklist submission
 
 - [ ] Repo `github.com/ahdzacky/desainar` publik dan **tetap publik setelah event**.
-- [ ] Tidak ada API key di riwayat git (`git log -p | grep -i "AIza"` hasilnya kosong).
+- [ ] Tidak ada API key di riwayat git (`git log -p | grep "GEMINI_API_KEY=."` hasilnya kosong).
 - [ ] URL demo Vercel bisa dibuka dari HP.
 - [ ] Project masuk dua kategori: Best Use of Gemma 4 dan Best Open-Source AI Project.
 - [ ] Alat AI yang dipakai saat coding dicantumkan di submission (aturan MLH mewajibkan transparansi).

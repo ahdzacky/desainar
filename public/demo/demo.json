@@ -1,0 +1,135 @@
+{
+  "photo": "/demo/room.jpg",
+  "credit": "Unsplash (Unsplash License)",
+  "result": {
+    "room_identification": {
+      "room_type": "living",
+      "estimated_room_scale": "Medium"
+    },
+    "spatial_annotations": [
+      {
+        "type": "wall_zone",
+        "label": "Dinding Utama",
+        "x_percent": 50,
+        "y_percent": 30,
+        "w_percent": 70,
+        "h_percent": 60
+      },
+      {
+        "type": "light_source",
+        "label": "Lampu Lantai",
+        "x_percent": 32,
+        "y_percent": 40,
+        "w_percent": 15,
+        "h_percent": 60
+      },
+      {
+        "type": "placement_zone",
+        "label": "Zona #1: Area Karpet",
+        "x_percent": 85,
+        "y_percent": 85,
+        "w_percent": 30,
+        "h_percent": 30
+      },
+      {
+        "type": "placement_zone",
+        "label": "Zona #2: Samping Kabinet",
+        "x_percent": 85,
+        "y_percent": 65,
+        "w_percent": 20,
+        "h_percent": 20
+      }
+    ],
+    "color_and_wall_analysis": {
+      "current_wall": {
+        "detected_name": "Light Grey",
+        "hex": "#E0E0E0",
+        "undertone": "Cool",
+        "wall_critique": "Terlalu dingin untuk gaya Japandi."
+      },
+      "detected_room_palette": [
+        {
+          "role": "60% Dominan (Dinding)",
+          "name": "Light Grey",
+          "hex": "#E0E0E0"
+        },
+        {
+          "role": "30% Sekunder (Lantai/Kayu)",
+          "name": "Oak Wood",
+          "hex": "#B58B5F"
+        },
+        {
+          "role": "10% Aksen",
+          "name": "Mustard Yellow",
+          "hex": "#E1AD01"
+        }
+      ],
+      "recommended_wall_palette": [
+        {
+          "type": "Cat Dinding Utama",
+          "name": "Warm Alabaster",
+          "hex": "#F2EFE9",
+          "finish": "Matte",
+          "reason": "Menciptakan suasana tenang dan organik."
+        },
+        {
+          "type": "Accent Wall",
+          "name": "Soft Greige",
+          "hex": "#D7D0C8",
+          "finish": "Matte",
+          "reason": "Memberikan kedalaman alami yang lembut."
+        }
+      ]
+    },
+    "spatial_metrics": {
+      "lighting_analysis": "Cahaya lembut namun kurang hangat.",
+      "negative_space_balance": "Cukup seimbang namun sedikit kaku.",
+      "style_alignment_score": 45
+    },
+    "interior_critique": "Warna kuning terlalu kontras untuk Japandi. Gunakan palet warna netral dan material kayu alami.",
+    "recommendations": [
+      {
+        "item_id": "armchair-01",
+        "match_score": 95,
+        "role_badge": "Rekomendasi Gemma",
+        "design_reason": "Kursi kayu oak hangat sangat cocok dengan estetika Japandi yang tenang.",
+        "ar_placement_guide": "di lantai kosong tengah dekat kursi kuning",
+        "zone_label": "Zona #1"
+      },
+      {
+        "item_id": "coffee-table-01",
+        "match_score": 90,
+        "role_badge": "Rekomendasi Gemma",
+        "design_reason": "Meja batu dan kayu memberikan tekstur organik khas Wabi-Sabi.",
+        "ar_placement_guide": "di lantai kosong depan kursi kuning",
+        "zone_label": "Zona #1"
+      },
+      {
+        "item_id": "potted-plant-01",
+        "match_score": 85,
+        "role_badge": "Rekomendasi Gemma",
+        "design_reason": "Tanaman hijau menambah elemen alam yang esensial bagi gaya Japandi.",
+        "ar_placement_guide": "di lantai kosong sebelah kanan meja putih",
+        "zone_label": "Zona #2"
+      },
+      {
+        "item_id": "sideboard-01",
+        "match_score": 80,
+        "role_badge": "Rekomendasi Gemma",
+        "design_reason": "Lemari kayu memberikan penyimpanan fungsional dengan tampilan minimalis organik.",
+        "ar_placement_guide": "di dinding kosong sebelah kiri lemari putih",
+        "zone_label": "Zona #2"
+      }
+    ],
+    "design_render_prompt": "Photorealistic interior of a living room redesigned in Japandi style; featuring a warm oak armchair, textured stone coffee table, and organic potted plants. Natural light, light wood flooring, and serene atmosphere. Walls painted Warm Alabaster (#F2EFE9).",
+    "meta": {
+      "model": "gemma-4-26b-a4b-it",
+      "mode": "instant",
+      "fallback": false,
+      "picks_from_catalog": false,
+      "style": "japandi",
+      "latency_ms": 23342,
+      "output_tokens": 1119
+    }
+  }
+}
