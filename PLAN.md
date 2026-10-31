@@ -22,6 +22,7 @@
 | 9 | Tampilan diganti ke design system **"Architectural Sapphire"** (dari desain Stitch tim): tema terang, aksen biru `#1d4ed8`, garis tipis. Logo DESAINAR hanya memberi warna biru pada "AI" dan "AR", tanpa garis bawah. | Permintaan tim. Yang dipakai hanya token gaya; kode `code.html` dari Stitch tidak disalin. |
 | 10 | Seluruh teks app dan jawaban Gemma memakai **Bahasa Inggris**. Footer menampilkan copyright. | Permintaan tim. |
 | 11 | Repo memakai **lisensi MIT** (`LICENSE`), © 2026 Ahmad Miftahul Zaki. | Permintaan tim. Cocok untuk kategori Best Open-Source AI Project. |
+| 12 | **Kamera:** HP memakai aplikasi kamera bawaan (`<input capture>`). Desktop membuka webcam lewat dialog `getUserMedia`, dan tombol Camera nonaktif kalau tidak ada kamera. Foto juga bisa di-**drag & drop**. | Permintaan tim. Browser desktop mengabaikan atribut `capture`. |
 
 ## 2. Lingkup
 
