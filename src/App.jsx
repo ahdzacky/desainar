@@ -167,7 +167,7 @@ export default function App() {
           </p>
           <p>Built at Hacktoberfest Hack Day Kota Batam × Batam Innovation Center 2026</p>
           <p className="border-t border-white/15 pt-3 text-white">
-            © 2026 Ahmad Miftahul Zaki · Released under the{' '}
+            © 2026 DESAINAR · Released under the{' '}
             <a href={`${REPO_URL}/blob/main/LICENSE`} className="font-semibold text-on-dark underline-offset-4 hover:underline">
               MIT License
             </a>{' '}
