@@ -5,6 +5,6 @@ export async function requestAnalysis({ image, style, mode, roomType }) {
     body: JSON.stringify({ image, style, mode, roomType }),
   });
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.error ?? `Server error ${res.status}. Coba lagi.`);
+  if (!res.ok) throw new Error(data.error ?? `Server error ${res.status}. Please try again.`);
   return data;
 }

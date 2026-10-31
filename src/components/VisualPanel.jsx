@@ -4,35 +4,35 @@ import { ROOM_TYPES, findRoom } from '../data/options.js';
 import { loadRender } from '../lib/render.js';
 
 const TABS = [
-  { id: 'orig', label: 'Foto Asli', icon: ImageIcon },
-  { id: 'analysis', label: 'Gambar Analisa', icon: ScanEye },
-  { id: 'render', label: 'Desain AI', icon: WandSparkles },
+  { id: 'orig', label: 'Original', icon: ImageIcon },
+  { id: 'analysis', label: 'Analysis', icon: ScanEye },
+  { id: 'render', label: 'AI Design', icon: WandSparkles },
 ];
 
 const STAGES = [
-  'Mengenali tipe ruangan…',
-  'Memetakan zona kosong & arah cahaya…',
-  'Membaca palet warna 60-30-10…',
-  'Memilih furniture dari katalog 3D…',
-  'Menyusun kritik desain…',
+  'Identifying the room type…',
+  'Mapping empty zones & light…',
+  'Reading the 60-30-10 palette…',
+  'Picking furniture from the 3D catalog…',
+  'Writing the design critique…',
 ];
 
 // Tailwind only ships class names it can see, so zone colours are spelled out.
 const ZONE_STYLES = [
-  { box: 'border-emerald-400 bg-emerald-500/15', tag: 'bg-emerald-400' },
-  { box: 'border-amber-400 bg-amber-500/15', tag: 'bg-amber-400' },
-  { box: 'border-sky-400 bg-sky-500/15', tag: 'bg-sky-400' },
+  { box: 'border-primary bg-primary/15', tag: 'bg-primary' },
+  { box: 'border-secondary bg-secondary/15', tag: 'bg-secondary' },
+  { box: 'border-primary-deep bg-primary-deep/15', tag: 'bg-primary-deep' },
 ];
 
 function PhotoButton({ capture, icon: Icon, label, onFile, variant = 'secondary' }) {
   const styles = {
-    primary: 'bg-amber-500 text-stone-950 hover:bg-amber-400 px-3 py-2.5',
-    secondary: 'border border-stone-700 bg-stone-950 text-stone-200 hover:border-stone-600 px-3 py-2.5',
-    floating: 'border border-stone-700 bg-stone-950/85 text-stone-100 backdrop-blur-md hover:bg-stone-900 px-3 py-1.5 shadow-lg',
+    primary: 'bg-primary text-white hover:bg-primary-deep px-3 py-2.5',
+    secondary: 'border border-hairline bg-surface text-slate hover:border-primary hover:text-primary px-3 py-2.5',
+    floating: 'border border-hairline bg-surface/95 text-ink shadow-overlay backdrop-blur-md hover:text-primary px-3 py-1.5',
   };
   return (
-    <label className={`flex cursor-pointer items-center justify-center gap-1.5 rounded-full text-xs font-semibold transition ${styles[variant]}`}>
-      <Icon className={`size-3.5 ${variant === 'floating' ? 'text-amber-400' : ''}`} />
+    <label className={`flex cursor-pointer items-center justify-center gap-1.5 rounded-md text-xs font-semibold transition ${styles[variant]}`}>
+      <Icon className={`size-3.5 ${variant === 'floating' ? 'text-primary' : ''}`} />
       {label}
       <input
         type="file"
@@ -53,21 +53,20 @@ function AnalysisOverlay({ annotations, currentWall, paint }) {
   return (
     <>
       <div className="blueprint absolute inset-0" />
-      <div className="absolute inset-0 bg-linear-to-t from-stone-950/80 via-transparent to-transparent" />
       {annotations.map((a, i) => {
         const pos = { left: `${a.x_percent}%`, top: `${a.y_percent}%` };
         if (a.type === 'placement_zone') {
-          const style = ZONE_STYLES[zone++ % ZONE_STYLES.length];
-          // Keep the label inside the photo when the zone sits near an edge.
-          const anchor = a.x_percent > 65 ? 'right-0' : a.x_percent < 35 ? 'left-0' : 'left-1/2 -translate-x-1/2';
+          const style = ZONE_STYLES[zone % ZONE_STYLES.length];
+          // Labels sit inside their own box, alternating corners, so neighbouring zones never overlap.
+          const corner = zone++ % 2 === 0 ? 'top-1 left-1' : 'right-1 bottom-1';
           return (
             <div
               key={i}
               style={{ ...pos, width: `${a.w_percent}%`, height: `${a.h_percent}%` }}
-              className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-2xl border-2 border-dashed ${style.box}`}
+              className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-lg border-2 border-dashed ${style.box}`}
             >
               <span
-                className={`absolute -top-2.5 max-w-44 truncate rounded-full px-2 py-0.5 text-[9px] font-extrabold text-stone-950 shadow ${anchor} ${style.tag}`}
+                className={`absolute max-w-[calc(100%-0.5rem)] truncate rounded-sm px-1.5 py-0.5 text-[9px] font-bold text-white shadow-overlay ${corner} ${style.tag}`}
               >
                 {a.label}
               </span>
@@ -79,7 +78,7 @@ function AnalysisOverlay({ annotations, currentWall, paint }) {
             <div
               key={i}
               style={pos}
-              className="absolute max-w-[45%] -translate-x-1/2 -translate-y-1/2 truncate rounded-full border border-sky-400/70 bg-sky-950/90 px-2.5 py-1 text-[10px] font-semibold text-sky-200 shadow-lg"
+              className="absolute max-w-[45%] -translate-x-1/2 -translate-y-1/2 truncate rounded-sm border border-chip-border bg-chip px-2 py-1 text-[10px] font-semibold text-secondary shadow-overlay"
             >
               ☀️ {a.label}
             </div>
@@ -89,13 +88,13 @@ function AnalysisOverlay({ annotations, currentWall, paint }) {
           <div
             key={i}
             style={pos}
-            className="absolute flex max-w-[60%] -translate-x-1/2 -translate-y-1/2 items-center gap-2 rounded-xl border border-amber-400/80 bg-stone-950/90 px-2.5 py-1.5 text-[10px] shadow-lg"
+            className="absolute flex max-w-[60%] -translate-x-1/2 -translate-y-1/2 items-center gap-2 rounded-md border border-hairline bg-surface/95 px-2.5 py-1.5 text-[10px] shadow-overlay"
           >
             <span className="flex shrink-0">
-              <span className="size-3 rounded-full border border-white/70" style={{ background: currentWall.hex }} />
+              <span className="size-3 rounded-full border border-hairline" style={{ background: currentWall.hex }} />
               {paint && <span className="-ml-1 size-3 rounded-full border border-white" style={{ background: paint.hex }} />}
             </span>
-            <span className="line-clamp-2 font-bold text-amber-300">{a.label}</span>
+            <span className="line-clamp-2 font-bold text-primary">{a.label}</span>
           </div>
         );
       })}
@@ -139,6 +138,7 @@ export default function VisualPanel({ photo, result, loading, styleName, roomTyp
       if (blobUrl) URL.revokeObjectURL(blobUrl);
     };
   }, [result, photo, variant]);
+
   useEffect(() => {
     if (!loading) return;
     setStage(0);
@@ -148,21 +148,21 @@ export default function VisualPanel({ photo, result, loading, styleName, roomTyp
 
   if (!photo) {
     return (
-      <section className="rounded-2xl border border-dashed border-stone-700 bg-stone-900/60 p-6 text-center">
-        <div className="mx-auto flex size-12 items-center justify-center rounded-2xl bg-amber-500/15">
-          <Camera className="size-6 text-amber-400" />
+      <section className="rounded-xl border border-dashed border-primary/30 bg-surface p-6 text-center">
+        <div className="mx-auto flex size-12 items-center justify-center rounded-lg bg-primary-soft">
+          <Camera className="size-6 text-primary" />
         </div>
-        <h2 className="mt-3 text-sm font-bold">2. Potret ruangan Anda</h2>
-        <p className="mx-auto mt-1 max-w-sm text-xs leading-relaxed text-stone-400">
-          Gemma 4 mengenali tipe ruangan, memetakan zona kosong, membaca warna dinding, lalu memilih furniture 3D yang bisa
-          langsung dicoba di ruangan lewat AR.
+        <h2 className="mt-3 text-sm font-bold text-ink">2. Snap your room</h2>
+        <p className="mx-auto mt-1 max-w-sm text-xs leading-relaxed text-muted">
+          Gemma 4 identifies the room, maps the empty zones, reads the wall colours, then picks 3D furniture you can place in your
+          room with AR.
         </p>
         <div className="mt-4 grid grid-cols-2 gap-2">
-          <PhotoButton capture icon={Camera} label="Kamera" onFile={onFile} variant="primary" />
-          <PhotoButton icon={ImageUp} label="Galeri" onFile={onFile} />
+          <PhotoButton capture icon={Camera} label="Camera" onFile={onFile} variant="primary" />
+          <PhotoButton icon={ImageUp} label="Gallery" onFile={onFile} />
         </div>
-        <button type="button" onClick={onDemo} className="mt-4 text-xs font-medium text-amber-300 underline underline-offset-4">
-          Coba dengan foto contoh
+        <button type="button" onClick={onDemo} className="mt-4 text-xs font-semibold text-primary underline-offset-4 hover:underline">
+          Try the sample photo
         </button>
       </section>
     );
@@ -171,22 +171,22 @@ export default function VisualPanel({ photo, result, loading, styleName, roomTyp
   const view = result && !loading ? tab : 'orig';
   const room = findRoom(result?.room_identification.room_type ?? roomType);
   const captions = {
-    orig: '📷 Foto ruangan (Before)',
-    analysis: '📐 Peta spasial Gemma 4',
-    render: '✨ Konsep desain (After)',
+    orig: '📷 Room photo (Before)',
+    analysis: '📐 Gemma 4 spatial map',
+    render: '✨ Design concept (After)',
   };
 
   return (
-    <section className="overflow-hidden rounded-2xl border border-stone-800 bg-stone-900 shadow-xl">
-      <div className="grid grid-cols-3 gap-1 border-b border-stone-800 bg-stone-950 p-1.5 text-[11px]">
+    <section className="overflow-hidden rounded-xl border border-hairline bg-surface shadow-hover">
+      <div className="grid grid-cols-3 gap-1 border-b border-hairline bg-subtle p-1.5 text-[11px]">
         {TABS.map(({ id, label, icon: Icon }, i) => (
           <button
             key={id}
             type="button"
             disabled={!result || loading}
             onClick={() => setTab(id)}
-            className={`flex items-center justify-center gap-1.5 rounded-xl px-2 py-2 transition disabled:opacity-40 ${
-              view === id ? 'bg-amber-500 font-bold text-stone-950 shadow' : 'font-medium text-stone-400 hover:text-stone-200'
+            className={`flex items-center justify-center gap-1.5 rounded-md px-2 py-2 transition disabled:opacity-40 ${
+              view === id ? 'bg-primary font-bold text-white shadow-hover' : 'font-medium text-muted hover:text-ink'
             }`}
           >
             <Icon className="size-3.5" />
@@ -197,43 +197,39 @@ export default function VisualPanel({ photo, result, loading, styleName, roomTyp
         ))}
       </div>
 
-      <div className="relative bg-stone-950">
+      <div className="relative bg-subtle">
         {view === 'render' ? (
           <div className="relative" style={{ aspectRatio: `${photo.width} / ${photo.height}` }}>
             {render.status === 'done' ? (
-              <img src={render.src} alt="Konsep desain interior dari AI" className="absolute inset-0 size-full object-cover" />
+              <img src={render.src} alt="AI interior design concept" className="absolute inset-0 size-full object-cover" />
             ) : (
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 px-6 text-center">
                 {render.status === 'error' ? (
-                  <p className="text-xs leading-relaxed text-red-300">
-                    Server render gratis sedang penuh (batas 1 gambar per 45 detik). Tunggu sebentar, lalu tekan "Variasi baru".
+                  <p className="text-xs leading-relaxed text-error-ink">
+                    The free render service is busy (limit: 1 image per 45 seconds). Wait a moment, then tap “New variation”.
                   </p>
                 ) : (
                   <>
-                    <LoaderCircle className="size-7 animate-spin text-amber-400" />
-                    <p className="text-xs font-semibold text-amber-200">Melukis konsep desain… (10–30 detik)</p>
+                    <LoaderCircle className="size-7 animate-spin text-primary" />
+                    <p className="text-xs font-semibold text-ink">Painting the design concept… (10–30 s)</p>
                   </>
                 )}
               </div>
             )}
-            <span className="absolute top-3 left-3 flex items-center gap-1 rounded-full bg-amber-500 px-3 py-1 text-[10px] font-extrabold text-stone-950 shadow-lg">
+            <span className="absolute top-3 left-3 flex items-center gap-1 rounded-sm bg-primary px-2.5 py-1 text-[10px] font-bold text-white shadow-overlay">
               <Sparkles className="size-3" /> DESAINAR Concept (After)
             </span>
             <button
               type="button"
               onClick={() => setVariant((v) => v + 1)}
-              className="absolute right-3 bottom-3 flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-stone-950/90 px-3 py-1.5 text-[11px] font-semibold text-amber-300 shadow-lg backdrop-blur-md hover:bg-stone-900"
+              className="absolute right-3 bottom-3 flex items-center gap-1.5 rounded-md border border-hairline bg-surface/95 px-3 py-1.5 text-[11px] font-semibold text-primary shadow-overlay backdrop-blur-md hover:border-primary"
             >
-              <RefreshCw className="size-3" /> Variasi baru
+              <RefreshCw className="size-3" /> New variation
             </button>
           </div>
         ) : (
           <div className="relative">
-            <img
-              src={photo.dataUrl}
-              alt="Foto ruangan"
-              className={`block w-full ${view === 'analysis' ? 'brightness-75 contrast-110' : ''}`}
-            />
+            <img src={photo.dataUrl} alt="Room photo" className={`block w-full ${view === 'analysis' ? 'brightness-90' : ''}`} />
             {view === 'analysis' && (
               <AnalysisOverlay
                 annotations={result.spatial_annotations}
@@ -242,10 +238,10 @@ export default function VisualPanel({ photo, result, loading, styleName, roomTyp
               />
             )}
             {loading && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-stone-950/70 backdrop-blur-[2px]">
-                <LoaderCircle className="size-7 animate-spin text-amber-400" />
-                <p className="text-xs font-semibold text-amber-200">{STAGES[stage]}</p>
-                <p className="text-[10px] text-stone-400">Gemma 4 sedang menganalisa foto Anda (±20 detik)</p>
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-surface/75 backdrop-blur-[2px]">
+                <LoaderCircle className="size-7 animate-spin text-primary" />
+                <p className="text-xs font-semibold text-ink">{STAGES[stage]}</p>
+                <p className="text-[10px] text-muted">Gemma 4 is analysing your photo (~20 s)</p>
               </div>
             )}
           </div>
@@ -253,38 +249,35 @@ export default function VisualPanel({ photo, result, loading, styleName, roomTyp
 
         {!loading && (
           <div className="absolute top-3 right-3 z-20">
-            <PhotoButton capture icon={Camera} label="Potret Baru" onFile={onFile} variant="floating" />
+            <PhotoButton capture icon={Camera} label="New photo" onFile={onFile} variant="floating" />
           </div>
         )}
-
       </div>
 
-      <div className="flex items-center justify-between gap-2 border-t border-stone-800/80 bg-stone-950 px-3 py-2">
+      <div className="flex items-center justify-between gap-2 border-t border-hairline px-3 py-2">
         <div className="flex min-w-0 flex-wrap items-center gap-1.5">
           {room && (
-            <span className="rounded-md bg-amber-400 px-2 py-0.5 text-[10px] font-bold tracking-wider text-stone-950 uppercase">
-              {room.label}
-            </span>
+            <span className="rounded-sm bg-primary px-2 py-0.5 text-[10px] font-bold tracking-wider text-white uppercase">{room.label}</span>
           )}
-          <span className="rounded-md border border-stone-800 bg-stone-900 px-2 py-0.5 text-[10px] text-stone-200">
-            Gaya: <strong className="text-amber-300">{styleName}</strong>
+          <span className="rounded-sm border border-hairline bg-subtle px-2 py-0.5 text-[10px] text-slate">
+            Style: <strong className="text-primary">{styleName}</strong>
           </span>
         </div>
-        <span className="shrink-0 text-[10px] text-amber-300">{captions[view]}</span>
+        <span className="shrink-0 text-[10px] font-medium text-secondary">{captions[view]}</span>
       </div>
 
-      <div className="no-scrollbar flex items-center gap-1.5 overflow-x-auto border-t border-stone-800/80 bg-stone-950/60 p-3 text-[11px]">
-        <span className="mr-1 shrink-0 text-stone-400">Tipe Ruang:</span>
+      <div className="no-scrollbar flex items-center gap-1.5 overflow-x-auto border-t border-hairline bg-subtle p-3 text-[11px]">
+        <span className="mr-1 shrink-0 text-muted">Room:</span>
         {ROOM_TYPES.map((r) => (
           <button
             key={r.id}
             type="button"
             disabled={loading}
             onClick={() => onRoomChange(r.id)}
-            className={`shrink-0 rounded-lg border px-2.5 py-1 transition disabled:opacity-50 ${
+            className={`shrink-0 rounded-sm border px-2.5 py-1 transition disabled:opacity-50 ${
               room?.id === r.id
-                ? 'border-amber-500/40 bg-amber-500/20 font-semibold text-amber-300'
-                : 'border-stone-800 bg-stone-900 font-medium text-stone-400 hover:text-stone-200'
+                ? 'border-primary bg-primary-soft font-semibold text-primary'
+                : 'border-hairline bg-surface font-medium text-slate hover:border-primary/50'
             }`}
           >
             {r.emoji} {r.label}

@@ -10,127 +10,127 @@
     "spatial_annotations": [
       {
         "type": "wall_zone",
-        "label": "Dinding Utama",
+        "label": "Main feature wall",
         "x_percent": 50,
-        "y_percent": 30,
+        "y_percent": 35,
         "w_percent": 70,
         "h_percent": 60
       },
       {
         "type": "light_source",
-        "label": "Lampu Lantai",
-        "x_percent": 32,
-        "y_percent": 40,
+        "label": "Brass floor lamp",
+        "x_percent": 31,
+        "y_percent": 45,
         "w_percent": 15,
-        "h_percent": 60
+        "h_percent": 50
       },
       {
         "type": "placement_zone",
-        "label": "Zona #1: Area Karpet",
-        "x_percent": 85,
+        "label": "Zone #1: Center floor",
+        "x_percent": 55,
         "y_percent": 85,
-        "w_percent": 30,
+        "w_percent": 40,
         "h_percent": 30
       },
       {
         "type": "placement_zone",
-        "label": "Zona #2: Samping Kabinet",
+        "label": "Zone #2: Near TV unit",
         "x_percent": 85,
-        "y_percent": 65,
+        "y_percent": 80,
         "w_percent": 20,
         "h_percent": 20
       }
     ],
     "color_and_wall_analysis": {
       "current_wall": {
-        "detected_name": "Light Grey",
-        "hex": "#E0E0E0",
-        "undertone": "Cool",
-        "wall_critique": "Terlalu dingin untuk gaya Japandi."
+        "detected_name": "Off-white",
+        "hex": "#E5E5E5",
+        "undertone": "Neutral",
+        "wall_critique": "A bit too sterile for Wabi-Sabi."
       },
       "detected_room_palette": [
         {
-          "role": "60% Dominan (Dinding)",
-          "name": "Light Grey",
-          "hex": "#E0E0E0"
+          "role": "60% Dominant (Wall)",
+          "name": "Off-white",
+          "hex": "#E5E5E5"
         },
         {
-          "role": "30% Sekunder (Lantai/Kayu)",
+          "role": "30% Secondary (Floor/Wood)",
           "name": "Oak Wood",
-          "hex": "#B58B5F"
+          "hex": "#B58E63"
         },
         {
-          "role": "10% Aksen",
+          "role": "10% Accent",
           "name": "Mustard Yellow",
-          "hex": "#E1AD01"
+          "hex": "#E3B42F"
         }
       ],
       "recommended_wall_palette": [
         {
-          "type": "Cat Dinding Utama",
+          "type": "Main Wall Paint",
           "name": "Warm Alabaster",
-          "hex": "#F2EFE9",
+          "hex": "#F2F0E9",
           "finish": "Matte",
-          "reason": "Menciptakan suasana tenang dan organik."
+          "reason": "Creates a soft, organic atmosphere."
         },
         {
           "type": "Accent Wall",
           "name": "Soft Greige",
           "hex": "#D7D0C8",
           "finish": "Matte",
-          "reason": "Memberikan kedalaman alami yang lembut."
+          "reason": "Adds depth and earthy grounding."
         }
       ]
     },
     "spatial_metrics": {
-      "lighting_analysis": "Cahaya lembut namun kurang hangat.",
-      "negative_space_balance": "Cukup seimbang namun sedikit kaku.",
-      "style_alignment_score": 45
+      "lighting_analysis": "Soft, diffused ambient light.",
+      "negative_space_balance": "Well-balanced but slightly sparse.",
+      "style_alignment_score": 65
     },
-    "interior_critique": "Warna kuning terlalu kontras untuk Japandi. Gunakan palet warna netral dan material kayu alami.",
+    "interior_critique": "Current colors are too high-contrast. Use warmer tones and organic textures for Japandi.",
     "recommendations": [
       {
         "item_id": "armchair-01",
         "match_score": 95,
-        "role_badge": "Rekomendasi Gemma",
-        "design_reason": "Kursi kayu oak hangat sangat cocok dengan estetika Japandi yang tenang.",
-        "ar_placement_guide": "di lantai kosong tengah dekat kursi kuning",
-        "zone_label": "Zona #1"
+        "role_badge": "Gemma pick",
+        "design_reason": "Warm oak and leather fit the organic Japandi aesthetic perfectly.",
+        "ar_placement_guide": "on the empty floor area near the yellow chair",
+        "zone_label": "Zone #1"
       },
       {
         "item_id": "coffee-table-01",
         "match_score": 90,
-        "role_badge": "Rekomendasi Gemma",
-        "design_reason": "Meja batu dan kayu memberikan tekstur organik khas Wabi-Sabi.",
-        "ar_placement_guide": "di lantai kosong depan kursi kuning",
-        "zone_label": "Zona #1"
-      },
-      {
-        "item_id": "potted-plant-01",
-        "match_score": 85,
-        "role_badge": "Rekomendasi Gemma",
-        "design_reason": "Tanaman hijau menambah elemen alam yang esensial bagi gaya Japandi.",
-        "ar_placement_guide": "di lantai kosong sebelah kanan meja putih",
-        "zone_label": "Zona #2"
+        "role_badge": "Gemma pick",
+        "design_reason": "Textured stone and wood bring essential Wabi-Sabi natural elements.",
+        "ar_placement_guide": "on the floor in front of the white media unit",
+        "zone_label": "Zone #2"
       },
       {
         "item_id": "sideboard-01",
+        "match_score": 85,
+        "role_badge": "Gemma pick",
+        "design_reason": "Slatted wood doors add texture and Japandi warmth.",
+        "ar_placement_guide": "against the long wall next to the black cabinet",
+        "zone_label": "Zone #1"
+      },
+      {
+        "item_id": "potted-plant-01",
         "match_score": 80,
-        "role_badge": "Rekomendasi Gemma",
-        "design_reason": "Lemari kayu memberikan penyimpanan fungsional dengan tampilan minimalis organik.",
-        "ar_placement_guide": "di dinding kosong sebelah kiri lemari putih",
-        "zone_label": "Zona #2"
+        "role_badge": "Gemma pick",
+        "design_reason": "Adds organic life and soft greenery to the space.",
+        "ar_placement_guide": "on the floor beside the white media unit",
+        "zone_label": "Zone #2"
       }
     ],
-    "design_render_prompt": "Photorealistic interior of a living room redesigned in Japandi style; featuring a warm oak armchair, textured stone coffee table, and organic potted plants. Natural light, light wood flooring, and serene atmosphere. Walls painted Warm Alabaster (#F2EFE9).",
+    "design_render_prompt": "A photorealistic Japandi living room featuring an oak armchair, a textured stone coffee table, and a slatted wood sideboard. Natural light, warm wood floors, and organic greenery create a calm atmosphere. Walls painted Warm Alabaster (#F2F0E9).",
     "meta": {
       "model": "gemma-4-26b-a4b-it",
       "mode": "instant",
       "fallback": false,
       "picks_from_catalog": false,
       "style": "japandi",
-      "latency_ms": 23342,
-      "output_tokens": 1119
+      "latency_ms": 16534,
+      "output_tokens": 1105
     }
   }
 }

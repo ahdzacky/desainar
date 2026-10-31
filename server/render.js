@@ -17,7 +17,7 @@ const int = (value, min, max, fallback) => {
 
 export async function fetchRender({ prompt, seed, width, height } = {}, apiKey) {
   const text = String(prompt ?? '').trim().slice(0, 700);
-  if (!text) throw httpError(400, 'Prompt render kosong.');
+  if (!text) throw httpError(400, 'The render prompt is empty.');
   const params = new URLSearchParams({
     width: String(int(width, 256, 1280, 1024)),
     height: String(int(height, 256, 1280, 640)),
@@ -47,7 +47,7 @@ export async function fetchRender({ prompt, seed, width, height } = {}, apiKey) 
     }
   }
   if (lastStatus === 402 || lastStatus === 429) {
-    throw httpError(503, 'Batas render gratis tercapai (1 gambar per 45 detik). Coba "Variasi baru" sebentar lagi.');
+    throw httpError(503, 'Free render limit reached (1 image per 45 seconds). Try "New variation" in a moment.');
   }
-  throw httpError(503, 'Server render sedang penuh. Coba "Variasi baru" sebentar lagi.');
+  throw httpError(503, 'The render service is busy. Try "New variation" in a moment.');
 }

@@ -6,7 +6,7 @@ export async function compressPhoto(fileOrBlob, maxSide = 1024, quality = 0.82) 
     const img = await new Promise((resolve, reject) => {
       const el = new Image();
       el.onload = () => resolve(el);
-      el.onerror = () => reject(new Error('Foto tidak bisa dibaca. Coba foto lain (JPG/PNG).'));
+      el.onerror = () => reject(new Error('Could not read this photo. Try another one (JPG/PNG).'));
       el.src = url;
     });
     const scale = Math.min(1, maxSide / Math.max(img.naturalWidth, img.naturalHeight));

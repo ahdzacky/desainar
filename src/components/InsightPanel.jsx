@@ -1,8 +1,7 @@
-import { PaintBucket, Palette, Sparkles, Sun, Move } from 'lucide-react';
+import { Move, PaintBucket, Palette, Sparkles, Sun } from 'lucide-react';
 import { inkFor } from '../lib/image.js';
 
 const SHARES = [60, 30, 10];
-const SCALE_LABELS = { Compact: 'Kecil', Medium: 'Sedang', Spacious: 'Luas' };
 
 export default function InsightPanel({ result, paintIndex, onPaintSelect }) {
   const { room_identification: room, spatial_metrics: metrics, color_and_wall_analysis: colors } = result;
@@ -10,41 +9,40 @@ export default function InsightPanel({ result, paintIndex, onPaintSelect }) {
 
   return (
     <>
-      <section className="space-y-3 rounded-2xl border border-stone-800 bg-stone-900/90 p-5 shadow-lg">
-        <div className="flex items-center justify-between border-b border-stone-800 pb-3">
-          <h3 className="flex items-center gap-2 text-sm font-bold">
-            <Sparkles className="size-4 text-amber-400" /> Kritik Desainer DESAINAR
+      <section className="space-y-3 rounded-xl border border-hairline bg-surface p-5">
+        <div className="flex items-center justify-between gap-2 border-b border-hairline pb-3">
+          <h3 className="flex items-center gap-2 text-sm font-bold text-ink">
+            <Sparkles className="size-4 text-primary" /> DESAINAR Designer Critique
           </h3>
-          <span className="rounded-full border border-stone-800 bg-stone-950 px-2.5 py-0.5 text-[11px] text-stone-400">
-            Ruangan {SCALE_LABELS[room.estimated_room_scale] ?? room.estimated_room_scale}
+          <span className="shrink-0 rounded-sm border border-hairline bg-subtle px-2 py-0.5 text-[10px] font-semibold text-slate">
+            {room.estimated_room_scale} room
           </span>
         </div>
-        {result.interior_critique && <p className="text-sm leading-relaxed text-stone-200">{result.interior_critique}</p>}
-        {room.current_vibe && <p className="text-xs text-stone-400">Suasana sekarang: {room.current_vibe}</p>}
+        {result.interior_critique && <p className="text-sm leading-relaxed text-slate">{result.interior_critique}</p>}
 
         <div className="space-y-1">
-          <div className="flex justify-between text-[11px] text-stone-400">
-            <span>Kesesuaian dengan gaya target</span>
-            <span className="font-semibold text-amber-300">{metrics.style_alignment_score}%</span>
+          <div className="flex justify-between text-[11px] text-muted">
+            <span>Match with the target style</span>
+            <span className="font-semibold text-primary">{metrics.style_alignment_score}%</span>
           </div>
-          <div className="h-2 overflow-hidden rounded-full bg-stone-800">
-            <div className="h-full rounded-full bg-linear-to-r from-amber-500 to-orange-500" style={{ width: `${metrics.style_alignment_score}%` }} />
+          <div className="h-2 overflow-hidden rounded-sm bg-subtle ring-1 ring-hairline">
+            <div className="h-full bg-primary" style={{ width: `${metrics.style_alignment_score}%` }} />
           </div>
         </div>
 
         <div className="grid gap-2 sm:grid-cols-2">
           {metrics.lighting_analysis && (
-            <div className="rounded-xl border border-stone-800 bg-stone-950/70 p-3 text-[11px] leading-snug text-stone-300">
-              <div className="mb-1 flex items-center gap-1 font-semibold text-sky-300">
-                <Sun className="size-3.5" /> Pencahayaan
+            <div className="rounded-lg border border-hairline bg-subtle p-3 text-[11px] leading-snug text-slate">
+              <div className="mb-1 flex items-center gap-1 font-semibold text-secondary">
+                <Sun className="size-3.5" /> Lighting
               </div>
               {metrics.lighting_analysis}
             </div>
           )}
           {metrics.negative_space_balance && (
-            <div className="rounded-xl border border-stone-800 bg-stone-950/70 p-3 text-[11px] leading-snug text-stone-300">
-              <div className="mb-1 flex items-center gap-1 font-semibold text-emerald-300">
-                <Move className="size-3.5" /> Sirkulasi & Ruang Kosong
+            <div className="rounded-lg border border-hairline bg-subtle p-3 text-[11px] leading-snug text-slate">
+              <div className="mb-1 flex items-center gap-1 font-semibold text-primary">
+                <Move className="size-3.5" /> Circulation & Negative Space
               </div>
               {metrics.negative_space_balance}
             </div>
@@ -52,16 +50,19 @@ export default function InsightPanel({ result, paintIndex, onPaintSelect }) {
         </div>
       </section>
 
-      <section className="space-y-4 rounded-2xl border border-stone-800 bg-stone-900/90 p-5 shadow-lg">
-        <div className="flex items-center justify-between border-b border-stone-800 pb-3">
-          <h3 className="flex items-center gap-2 text-sm font-bold">
-            <Palette className="size-4 text-amber-400" /> Analisis Warna & Dinding (60-30-10)
+      <section className="space-y-4 rounded-xl border border-hairline bg-surface p-5">
+        <div className="flex items-center justify-between gap-2 border-b border-hairline pb-3">
+          <h3 className="flex items-center gap-2 text-sm font-bold text-ink">
+            <Palette className="size-4 text-primary" /> Wall & Colour Analysis (60-30-10)
           </h3>
+          <span className="shrink-0 rounded-sm border border-chip-border bg-chip px-2 py-0.5 text-[10px] font-semibold text-secondary">
+            Colour Harmony AI
+          </span>
         </div>
 
         <div className="space-y-1.5">
-          <p className="text-[11px] text-stone-400">Proporsi warna di foto saat ini:</p>
-          <div className="flex h-8 w-full overflow-hidden rounded-xl border border-stone-700/70 text-[10px] font-bold">
+          <p className="text-[11px] text-muted">Colour proportions in the photo:</p>
+          <div className="flex h-8 w-full overflow-hidden rounded-md border border-hairline text-[10px] font-bold">
             {colors.detected_room_palette.map((c, i) => (
               <div
                 key={c.role}
@@ -75,21 +76,21 @@ export default function InsightPanel({ result, paintIndex, onPaintSelect }) {
           </div>
         </div>
 
-        <div className="flex items-start gap-3 rounded-xl border border-stone-800 bg-stone-950/70 p-3">
-          <div className="size-10 shrink-0 rounded-lg border border-stone-700" style={{ background: wall.hex }} />
+        <div className="flex items-start gap-3 rounded-lg border border-hairline bg-subtle p-3">
+          <div className="size-10 shrink-0 rounded-md border border-hairline" style={{ background: wall.hex }} />
           <div className="text-[11px] leading-snug">
-            <div className="font-bold text-stone-200">
-              Dinding sekarang: {wall.detected_name} <span className="font-mono text-stone-400">{wall.hex}</span>
+            <div className="font-bold text-ink">
+              Current wall: {wall.detected_name} <span className="font-mono font-medium text-muted">{wall.hex}</span>
             </div>
-            <div className="text-stone-400">Undertone: {wall.undertone}</div>
-            {wall.wall_critique && <p className="mt-1 text-stone-300">{wall.wall_critique}</p>}
+            <div className="text-muted">Undertone: {wall.undertone}</div>
+            {wall.wall_critique && <p className="mt-1 text-slate">{wall.wall_critique}</p>}
           </div>
         </div>
 
         {colors.recommended_wall_palette.length > 0 && (
           <div className="space-y-2">
-            <p className="flex items-center gap-1.5 text-xs font-semibold text-amber-400">
-              <PaintBucket className="size-3.5" /> Rekomendasi cat dinding (klik untuk simulasi di panggung AR)
+            <p className="flex items-center gap-1.5 text-xs font-semibold text-primary">
+              <PaintBucket className="size-3.5" /> Recommended wall paint (tap to preview on the AR stage)
             </p>
             <div className="grid gap-2.5 sm:grid-cols-2">
               {colors.recommended_wall_palette.map((paint, i) => (
@@ -97,20 +98,20 @@ export default function InsightPanel({ result, paintIndex, onPaintSelect }) {
                   key={paint.hex + i}
                   type="button"
                   onClick={() => onPaintSelect(i)}
-                  className={`flex items-start gap-3 rounded-xl border-2 bg-stone-950/80 p-3 text-left transition hover:bg-stone-950 ${
-                    paintIndex === i ? 'border-amber-500' : 'border-stone-800 hover:border-stone-700'
+                  className={`flex items-start gap-3 rounded-lg border bg-surface p-3 text-left transition hover:shadow-hover ${
+                    paintIndex === i ? 'border-primary ring-2 ring-primary/15' : 'border-hairline hover:border-primary/50'
                   }`}
                 >
-                  <div className="size-10 shrink-0 rounded-lg border border-stone-700" style={{ background: paint.hex }} />
+                  <div className="size-10 shrink-0 rounded-md border border-hairline" style={{ background: paint.hex }} />
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5">
-                      <span className={`text-[10px] font-bold uppercase ${paintIndex === i ? 'text-amber-400' : 'text-stone-400'}`}>
+                      <span className={`text-[10px] font-bold tracking-wide uppercase ${paintIndex === i ? 'text-primary' : 'text-muted'}`}>
                         {paint.type}
                       </span>
-                      <span className="font-mono text-[10px] text-stone-400">{paint.hex}</span>
+                      <span className="font-mono text-[10px] text-muted">{paint.hex}</span>
                     </div>
-                    <div className="truncate text-xs font-bold text-white">{paint.name}</div>
-                    <div className="mt-0.5 text-[10px] leading-snug text-stone-400">
+                    <div className="truncate text-xs font-bold text-ink">{paint.name}</div>
+                    <div className="mt-0.5 text-[10px] leading-snug text-muted">
                       {paint.finish}
                       {paint.reason && ` • ${paint.reason}`}
                     </div>

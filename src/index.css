@@ -1,18 +1,39 @@
 @import "tailwindcss";
 
+/* "Architectural Sapphire": clean white surfaces, hairline borders, sapphire accents */
 @theme {
   --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+
+  --color-canvas: #f8f9ff;
+  --color-surface: #ffffff;
+  --color-subtle: #f8fafc;
+  --color-hairline: #e2e8f0;
+  --color-ink: #0d1c2f;
+  --color-slate: #334155;
+  --color-muted: #64748b;
+  --color-primary: #1d4ed8;
+  --color-primary-deep: #1e40af;
+  --color-primary-soft: #eff4ff;
+  --color-secondary: #0284c7;
+  --color-chip: #f0f9ff;
+  --color-chip-border: #bae6fd;
+  --color-on-dark: #93ccff;
+  --color-error-soft: #ffdad6;
+  --color-error-ink: #93000a;
+
+  --shadow-hover: 0 4px 16px -2px rgb(30 64 175 / 0.06);
+  --shadow-overlay: 0 16px 32px -4px rgb(15 23 42 / 0.08);
 }
 
 body {
-  @apply min-h-screen bg-stone-950 text-stone-100 antialiased selection:bg-amber-500/30;
+  @apply min-h-screen bg-canvas text-ink antialiased selection:bg-primary/20;
 }
 
-/* Grid overlay for the "Gambar Analisa" view */
+/* Grid overlay for the "Analysis" view */
 .blueprint {
   background-image:
-    linear-gradient(to right, rgb(245 158 11 / 0.16) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(245 158 11 / 0.16) 1px, transparent 1px);
+    linear-gradient(to right, rgb(29 78 216 / 0.16) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(29 78 216 / 0.16) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 

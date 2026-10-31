@@ -15,7 +15,7 @@ function devApi() {
           res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify(body));
         };
-        if (req.method !== 'POST') return send(405, { error: 'Gunakan POST.' });
+        if (req.method !== 'POST') return send(405, { error: 'Use POST.' });
         try {
           const chunks = [];
           for await (const chunk of req) chunks.push(chunk);
