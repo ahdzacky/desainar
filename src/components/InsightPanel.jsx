@@ -2,6 +2,7 @@ import { PaintBucket, Palette, Sparkles, Sun, Move } from 'lucide-react';
 import { inkFor } from '../lib/image.js';
 
 const SHARES = [60, 30, 10];
+const SCALE_LABELS = { Compact: 'Kecil', Medium: 'Sedang', Spacious: 'Luas' };
 
 export default function InsightPanel({ result, paintIndex, onPaintSelect }) {
   const { room_identification: room, spatial_metrics: metrics, color_and_wall_analysis: colors } = result;
@@ -15,7 +16,7 @@ export default function InsightPanel({ result, paintIndex, onPaintSelect }) {
             <Sparkles className="size-4 text-amber-400" /> Kritik Desainer DESAINAR
           </h3>
           <span className="rounded-full border border-stone-800 bg-stone-950 px-2.5 py-0.5 text-[11px] text-stone-400">
-            Skala: {room.estimated_room_scale}
+            Ruangan {SCALE_LABELS[room.estimated_room_scale] ?? room.estimated_room_scale}
           </span>
         </div>
         {result.interior_critique && <p className="text-sm leading-relaxed text-stone-200">{result.interior_critique}</p>}

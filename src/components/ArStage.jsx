@@ -46,6 +46,8 @@ export default function ArStage({ picks, paint }) {
           ar-scale="fixed"
           ar-placement="floor"
           camera-controls
+          camera-orbit="-30deg 75deg 175%"
+          max-camera-orbit="auto auto 300%"
           touch-action="pan-y"
           shadow-intensity="1"
           environment-image="neutral"

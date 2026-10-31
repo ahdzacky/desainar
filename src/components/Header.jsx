@@ -15,7 +15,7 @@ export default function Header({ mode, onModeChange }) {
             <h1 className="text-lg leading-none font-extrabold tracking-wider">
               DES<span className="text-amber-400">AI</span>N<span className="text-amber-400">AR</span>
             </h1>
-            <p className="mt-1 text-[10.5px] font-medium text-stone-400">AI Interior Design & AR Furniture</p>
+            <p className="mt-1 text-[10.5px] leading-tight font-medium text-stone-400">AI Interior & AR Furniture</p>
           </div>
         </div>
 
@@ -28,7 +28,7 @@ export default function Header({ mode, onModeChange }) {
                 key={id}
                 type="button"
                 onClick={() => onModeChange(id)}
-                className={`flex items-center gap-1 rounded-lg px-2.5 py-1 transition ${
+                className={`flex items-center gap-1 rounded-lg px-2 py-1 whitespace-nowrap transition ${
                   active ? 'bg-amber-500 font-semibold text-stone-950' : 'font-medium text-stone-400 hover:text-stone-200'
                 }`}
               >

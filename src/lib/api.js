@@ -9,10 +9,18 @@ export async function requestAnalysis({ image, style, mode, roomType }) {
   return data;
 }
 
-// Concept render via Pollinations (open-weight text-to-image, no key needed).
-// Keeps the photo's orientation so the before/after tabs line up.
-export function renderUrl(prompt, photo, seed) {
+// Same prompt, same seed: the first render of a result is cached by the CDN.
+function seedFor(text) {
+  let hash = 0;
+  for (const ch of text) hash = (hash * 31 + ch.charCodeAt(0)) >>> 0;
+  return hash % 100000;
+}
+
+// Concept render via our /api/render proxy to Pollinations. Keeps the photo's
+// orientation so the before/after tabs line up; `variant` moves to a new seed.
+export function renderUrl(prompt, photo, variant = 0) {
   const landscape = !photo || photo.width >= photo.height;
   const [width, height] = landscape ? [1024, 640] : [640, 1024];
-  return `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=${width}&height=${height}&seed=${seed}&nologo=true`;
+  const params = new URLSearchParams({ prompt, width, height, seed: seedFor(prompt) + variant });
+  return `/api/render?${params}`;
 }

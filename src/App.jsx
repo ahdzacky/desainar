@@ -68,7 +68,7 @@ export default function App() {
       setRoomType(null);
       setStyle(demo.result.meta.style);
       setMode(demo.result.meta.mode);
-      setResult(demo.result);
+      setResult({ ...demo.result, demo_render: demo.render });
       setRanWith({ style: demo.result.meta.style, mode: demo.result.meta.mode });
       setPaintIndex(0);
       setStatus('done');

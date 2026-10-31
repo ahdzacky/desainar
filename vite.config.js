@@ -27,6 +27,20 @@ function devApi() {
           send(err.statusCode ?? 502, { error: err.message });
         }
       });
+      server.middlewares.use('/api/render', async (req, res) => {
+        try {
+          const query = Object.fromEntries(new URL(req.url, 'http://localhost').searchParams);
+          const { POLLINATIONS_KEY } = loadEnv(server.config.mode, process.cwd(), '');
+          const { fetchRender } = await server.ssrLoadModule('/server/render.js');
+          const { body, type } = await fetchRender(query, POLLINATIONS_KEY);
+          res.setHeader('Content-Type', type);
+          res.end(body);
+        } catch (err) {
+          res.statusCode = err.statusCode ?? 502;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ error: err.message }));
+        }
+      });
     },
   };
 }

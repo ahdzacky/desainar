@@ -58,13 +58,17 @@ function AnalysisOverlay({ annotations, currentWall, paint }) {
         const pos = { left: `${a.x_percent}%`, top: `${a.y_percent}%` };
         if (a.type === 'placement_zone') {
           const style = ZONE_STYLES[zone++ % ZONE_STYLES.length];
+          // Keep the label inside the photo when the zone sits near an edge.
+          const anchor = a.x_percent > 65 ? 'right-0' : a.x_percent < 35 ? 'left-0' : 'left-1/2 -translate-x-1/2';
           return (
             <div
               key={i}
               style={{ ...pos, width: `${a.w_percent}%`, height: `${a.h_percent}%` }}
-              className={`absolute flex -translate-x-1/2 -translate-y-1/2 items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed p-1 text-center ${style.box}`}
+              className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-2xl border-2 border-dashed ${style.box}`}
             >
-              <span className={`line-clamp-2 rounded-lg px-2 py-0.5 text-[9px] leading-tight font-extrabold text-stone-950 ${style.tag}`}>
+              <span
+                className={`absolute -top-2.5 max-w-44 truncate rounded-full px-2 py-0.5 text-[9px] font-extrabold text-stone-950 shadow ${anchor} ${style.tag}`}
+              >
                 {a.label}
               </span>
             </div>
@@ -101,14 +105,17 @@ function AnalysisOverlay({ annotations, currentWall, paint }) {
 
 export default function VisualPanel({ photo, result, loading, styleName, roomType, paint, onRoomChange, onFile, onDemo }) {
   const [tab, setTab] = useState('analysis');
-  const [seed, setSeed] = useState(() => Math.floor(Math.random() * 100000));
+  const [variant, setVariant] = useState(0);
   const [renderStatus, setRenderStatus] = useState('loading');
   const [stage, setStage] = useState(0);
 
-  const render = result ? renderUrl(result.design_render_prompt, photo, seed) : '';
+  // The demo result ships a pre-rendered image for its first variant.
+  const render = result ? (variant === 0 && result.demo_render) || renderUrl(result.design_render_prompt, photo, variant) : '';
   useEffect(() => setRenderStatus('loading'), [render]);
   useEffect(() => {
-    if (result) setTab('analysis');
+    if (!result) return;
+    setTab('analysis');
+    setVariant(0);
   }, [result]);
   useEffect(() => {
     if (!loading) return;
@@ -184,7 +191,7 @@ export default function VisualPanel({ photo, result, loading, styleName, roomTyp
                 {renderStatus === 'loading' ? (
                   <>
                     <LoaderCircle className="size-7 animate-spin text-amber-400" />
-                    <p className="text-xs font-semibold text-amber-200">Melukis konsep desain… (±10 detik)</p>
+                    <p className="text-xs font-semibold text-amber-200">Melukis konsep desain… (10–30 detik)</p>
                   </>
                 ) : (
                   <p className="text-xs text-red-300">Render gagal dimuat. Coba variasi baru.</p>
@@ -196,8 +203,8 @@ export default function VisualPanel({ photo, result, loading, styleName, roomTyp
             </span>
             <button
               type="button"
-              onClick={() => setSeed((s) => s + 1)}
-              className="absolute right-3 bottom-12 flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-stone-950/90 px-3 py-1.5 text-[11px] font-semibold text-amber-300 shadow-lg backdrop-blur-md hover:bg-stone-900"
+              onClick={() => setVariant((v) => v + 1)}
+              className="absolute right-3 bottom-3 flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-stone-950/90 px-3 py-1.5 text-[11px] font-semibold text-amber-300 shadow-lg backdrop-blur-md hover:bg-stone-900"
             >
               <RefreshCw className="size-3" /> Variasi baru
             </button>
@@ -232,21 +239,20 @@ export default function VisualPanel({ photo, result, loading, styleName, roomTyp
           </div>
         )}
 
-        <div className="pointer-events-none absolute right-3 bottom-2.5 left-3 flex items-center justify-between gap-2">
-          <div className="flex flex-wrap items-center gap-1.5">
-            {room && (
-              <span className="rounded-md bg-amber-400 px-2 py-0.5 text-[10px] font-bold tracking-wider text-stone-950 uppercase">
-                {room.label}
-              </span>
-            )}
-            <span className="rounded-md border border-stone-800 bg-stone-950/85 px-2 py-0.5 text-[10px] text-stone-200">
-              Gaya: <strong className="text-amber-300">{styleName}</strong>
+      </div>
+
+      <div className="flex items-center justify-between gap-2 border-t border-stone-800/80 bg-stone-950 px-3 py-2">
+        <div className="flex min-w-0 flex-wrap items-center gap-1.5">
+          {room && (
+            <span className="rounded-md bg-amber-400 px-2 py-0.5 text-[10px] font-bold tracking-wider text-stone-950 uppercase">
+              {room.label}
             </span>
-          </div>
-          <span className="rounded-md border border-amber-500/30 bg-stone-950/85 px-2 py-0.5 text-[10px] text-amber-300">
-            {captions[view]}
+          )}
+          <span className="rounded-md border border-stone-800 bg-stone-900 px-2 py-0.5 text-[10px] text-stone-200">
+            Gaya: <strong className="text-amber-300">{styleName}</strong>
           </span>
         </div>
+        <span className="shrink-0 text-[10px] text-amber-300">{captions[view]}</span>
       </div>
 
       <div className="no-scrollbar flex items-center gap-1.5 overflow-x-auto border-t border-stone-800/80 bg-stone-950/60 p-3 text-[11px]">

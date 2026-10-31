@@ -25,7 +25,7 @@ body {
 
 model-viewer {
   width: 100%;
-  height: 460px;
+  height: 540px;
   --poster-color: transparent;
 }
 
