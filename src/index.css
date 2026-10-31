@@ -28,3 +28,11 @@ model-viewer {
   height: 460px;
   --poster-color: transparent;
 }
+
+/* model-viewer reflects the AR session state as attributes */
+model-viewer[ar-status='session-started'] .ar-scan {
+  display: flex;
+}
+model-viewer[ar-tracking='not-tracking'] .ar-lost {
+  display: block;
+}
