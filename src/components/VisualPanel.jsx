@@ -221,7 +221,7 @@ export default function VisualPanel({ photo, result, loading, styleName, roomTyp
           {dragging ? <ImageUp className="size-6 text-primary" /> : <Camera className="size-6 text-primary" />}
         </div>
         <h2 className="mt-3 text-lg font-bold text-ink">{dragging ? 'Drop your room photo' : '2. Snap your room'}</h2>
-        <p className="mx-auto mt-1 max-w-sm text-base leading-relaxed text-muted">
+        <p className="mx-auto mt-1 max-w-xl text-base leading-relaxed text-muted">
           Gemma 4 identifies the room, maps the empty zones, reads the wall colours, then picks 3D furniture you can place in your
           room with AR.
         </p>

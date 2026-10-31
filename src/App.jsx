@@ -100,7 +100,7 @@ export default function App() {
     <div className="flex min-h-screen flex-col">
       <Header mode={mode} onModeChange={setMode} />
 
-      <main className="mx-auto w-full max-w-lg flex-1 space-y-6 px-4 pt-5 pb-12">
+      <main className="mx-auto w-full max-w-4xl flex-1 space-y-6 px-4 pt-5 pb-12">
         <StylePicker value={style} onChange={setStyle} />
 
         <VisualPanel
@@ -157,7 +157,7 @@ export default function App() {
       </main>
 
       <footer className="bg-primary-deep px-4 py-7 text-center text-base leading-relaxed text-white/75">
-        <div className="mx-auto max-w-lg space-y-2">
+        <div className="mx-auto max-w-4xl space-y-2">
           <p className="text-base">
             <Brand className="text-white" accent="text-on-dark" />
           </p>

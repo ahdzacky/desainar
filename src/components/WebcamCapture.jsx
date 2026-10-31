@@ -47,7 +47,7 @@ export default function WebcamCapture({ onCapture, onClose }) {
       className="fixed inset-0 z-50 flex items-center justify-center bg-ink/60 p-4 backdrop-blur-sm"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
-      <div className="w-full max-w-lg overflow-hidden rounded-xl border border-hairline bg-surface shadow-overlay">
+      <div className="w-full max-w-2xl overflow-hidden rounded-xl border border-hairline bg-surface shadow-overlay">
         <div className="flex items-center justify-between border-b border-hairline px-4 py-3">
           <h3 className="text-lg font-bold text-ink">Take a room photo</h3>
           <button type="button" onClick={onClose} aria-label="Close" className="rounded-md p-1 text-muted hover:bg-subtle hover:text-ink">

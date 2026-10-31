@@ -7,7 +7,7 @@ const ICONS = { instant: Zap, deep: Brain };
 export default function Header({ mode, onModeChange }) {
   return (
     <header className="sticky top-0 z-30 border-b border-hairline bg-surface/90 px-4 py-3 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-lg flex-wrap items-center justify-between gap-2">
+      <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2.5">
           <div className="flex size-9 items-center justify-center rounded-lg bg-primary shadow-hover">
             <Compass className="size-5 text-white" />
