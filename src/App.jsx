@@ -165,7 +165,7 @@ export default function App() {
             Room analysis by Gemma 4 (open-weight) via the Gemini API · Concept renders by Pollinations · AR by Google
             &lt;model-viewer&gt; · 3D models from Poly Haven (CC0)
           </p>
-          <p>Built at Hacktoberfest Hack Day Kota Batam × Batam Innovation Center 2026</p>
+          <p>Built at Hacktoberfest Hack Day Kota Batam x Batam Innovation Center 2026</p>
           <p className="border-t border-white/15 pt-3 text-white">
             © 2026 DESAINAR · Released under the{' '}
             <a href={`${REPO_URL}/blob/main/LICENSE`} className="font-semibold text-on-dark underline-offset-4 hover:underline">
