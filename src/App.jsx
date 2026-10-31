@@ -116,7 +116,7 @@ export default function App() {
         />
 
         {result?.meta && !loading && (
-          <p className="-mt-3 text-center text-[11px] text-muted">
+          <p className="-mt-3 text-center text-base text-muted">
             Analysed by <span className="font-mono text-primary">{result.meta.model}</span> in{' '}
             {(result.meta.latency_ms / 1000).toFixed(1)} s
             {result.meta.fallback && <span className="block text-secondary">Deep mode was busy, so Instant answered.</span>}
@@ -127,7 +127,7 @@ export default function App() {
           <button
             type="button"
             onClick={() => analyze()}
-            className="flex w-full items-center justify-center gap-2 rounded-md border border-primary bg-surface px-4 py-3 text-xs font-semibold text-primary hover:bg-primary-soft"
+            className="flex w-full items-center justify-center gap-2 rounded-md border border-primary bg-surface px-4 py-3 text-base font-semibold text-primary hover:bg-primary-soft"
           >
             <RefreshCw className="size-3.5" />
             Re-analyse: {styleName} · {MODES[mode].title}
@@ -135,7 +135,7 @@ export default function App() {
         )}
 
         {status === 'error' && (
-          <div className="flex items-start gap-3 rounded-lg border border-error-ink/20 bg-error-soft p-4 text-xs text-error-ink">
+          <div className="flex items-start gap-3 rounded-lg border border-error-ink/20 bg-error-soft p-4 text-base text-error-ink">
             <TriangleAlert className="mt-0.5 size-4 shrink-0" />
             <div className="space-y-2">
               <p>{error}</p>
@@ -156,7 +156,7 @@ export default function App() {
         )}
       </main>
 
-      <footer className="bg-primary-deep px-4 py-7 text-center text-[11px] leading-relaxed text-white/75">
+      <footer className="bg-primary-deep px-4 py-7 text-center text-base leading-relaxed text-white/75">
         <div className="mx-auto max-w-lg space-y-2">
           <p className="text-base">
             <Brand className="text-white" accent="text-on-dark" />

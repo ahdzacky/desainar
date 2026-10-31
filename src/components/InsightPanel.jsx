@@ -11,17 +11,17 @@ export default function InsightPanel({ result, paintIndex, onPaintSelect }) {
     <>
       <section className="space-y-3 rounded-xl border border-hairline bg-surface p-5">
         <div className="flex items-center justify-between gap-2 border-b border-hairline pb-3">
-          <h3 className="flex items-center gap-2 text-sm font-bold text-ink">
+          <h3 className="flex items-center gap-2 text-lg font-bold text-ink">
             <Sparkles className="size-4 text-primary" /> DESAINAR Designer Critique
           </h3>
-          <span className="shrink-0 rounded-sm border border-hairline bg-subtle px-2 py-0.5 text-[10px] font-semibold text-slate">
+          <span className="shrink-0 rounded-sm border border-hairline bg-subtle px-2 py-0.5 text-base font-semibold text-slate">
             {room.estimated_room_scale} room
           </span>
         </div>
-        {result.interior_critique && <p className="text-sm leading-relaxed text-slate">{result.interior_critique}</p>}
+        {result.interior_critique && <p className="text-base leading-relaxed text-slate">{result.interior_critique}</p>}
 
         <div className="space-y-1">
-          <div className="flex justify-between text-[11px] text-muted">
+          <div className="flex justify-between text-base text-muted">
             <span>Match with the target style</span>
             <span className="font-semibold text-primary">{metrics.style_alignment_score}%</span>
           </div>
@@ -32,7 +32,7 @@ export default function InsightPanel({ result, paintIndex, onPaintSelect }) {
 
         <div className="grid gap-2 sm:grid-cols-2">
           {metrics.lighting_analysis && (
-            <div className="rounded-lg border border-hairline bg-subtle p-3 text-[11px] leading-snug text-slate">
+            <div className="rounded-lg border border-hairline bg-subtle p-3 text-base leading-snug text-slate">
               <div className="mb-1 flex items-center gap-1 font-semibold text-secondary">
                 <Sun className="size-3.5" /> Lighting
               </div>
@@ -40,7 +40,7 @@ export default function InsightPanel({ result, paintIndex, onPaintSelect }) {
             </div>
           )}
           {metrics.negative_space_balance && (
-            <div className="rounded-lg border border-hairline bg-subtle p-3 text-[11px] leading-snug text-slate">
+            <div className="rounded-lg border border-hairline bg-subtle p-3 text-base leading-snug text-slate">
               <div className="mb-1 flex items-center gap-1 font-semibold text-primary">
                 <Move className="size-3.5" /> Circulation & Negative Space
               </div>
@@ -52,17 +52,17 @@ export default function InsightPanel({ result, paintIndex, onPaintSelect }) {
 
       <section className="space-y-4 rounded-xl border border-hairline bg-surface p-5">
         <div className="flex items-center justify-between gap-2 border-b border-hairline pb-3">
-          <h3 className="flex items-center gap-2 text-sm font-bold text-ink">
+          <h3 className="flex items-center gap-2 text-lg font-bold text-ink">
             <Palette className="size-4 text-primary" /> Wall & Colour Analysis (60-30-10)
           </h3>
-          <span className="shrink-0 rounded-sm border border-chip-border bg-chip px-2 py-0.5 text-[10px] font-semibold text-secondary">
+          <span className="shrink-0 rounded-sm border border-chip-border bg-chip px-2 py-0.5 text-base font-semibold text-secondary">
             Colour Harmony AI
           </span>
         </div>
 
         <div className="space-y-1.5">
-          <p className="text-[11px] text-muted">Colour proportions in the photo:</p>
-          <div className="flex h-8 w-full overflow-hidden rounded-md border border-hairline text-[10px] font-bold">
+          <p className="text-base text-muted">Colour proportions in the photo:</p>
+          <div className="flex h-10 w-full overflow-hidden rounded-md border border-hairline text-base font-bold">
             {colors.detected_room_palette.map((c, i) => (
               <div
                 key={c.role}
@@ -78,7 +78,7 @@ export default function InsightPanel({ result, paintIndex, onPaintSelect }) {
 
         <div className="flex items-start gap-3 rounded-lg border border-hairline bg-subtle p-3">
           <div className="size-10 shrink-0 rounded-md border border-hairline" style={{ background: wall.hex }} />
-          <div className="text-[11px] leading-snug">
+          <div className="text-base leading-snug">
             <div className="font-bold text-ink">
               Current wall: {wall.detected_name} <span className="font-mono font-medium text-muted">{wall.hex}</span>
             </div>
@@ -89,7 +89,7 @@ export default function InsightPanel({ result, paintIndex, onPaintSelect }) {
 
         {colors.recommended_wall_palette.length > 0 && (
           <div className="space-y-2">
-            <p className="flex items-center gap-1.5 text-xs font-semibold text-primary">
+            <p className="flex items-center gap-1.5 text-base font-semibold text-primary">
               <PaintBucket className="size-3.5" /> Recommended wall paint (tap to preview on the AR stage)
             </p>
             <div className="grid gap-2.5 sm:grid-cols-2">
@@ -105,13 +105,13 @@ export default function InsightPanel({ result, paintIndex, onPaintSelect }) {
                   <div className="size-10 shrink-0 rounded-md border border-hairline" style={{ background: paint.hex }} />
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5">
-                      <span className={`text-[10px] font-bold tracking-wide uppercase ${paintIndex === i ? 'text-primary' : 'text-muted'}`}>
+                      <span className={`text-base font-bold tracking-wide uppercase ${paintIndex === i ? 'text-primary' : 'text-muted'}`}>
                         {paint.type}
                       </span>
-                      <span className="font-mono text-[10px] text-muted">{paint.hex}</span>
+                      <span className="font-mono text-base text-muted">{paint.hex}</span>
                     </div>
-                    <div className="truncate text-xs font-bold text-ink">{paint.name}</div>
-                    <div className="mt-0.5 text-[10px] leading-snug text-muted">
+                    <div className="truncate text-base font-bold text-ink">{paint.name}</div>
+                    <div className="mt-0.5 text-base leading-snug text-muted">
                       {paint.finish}
                       {paint.reason && ` • ${paint.reason}`}
                     </div>

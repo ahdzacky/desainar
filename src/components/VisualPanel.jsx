@@ -26,7 +26,7 @@ const ZONE_STYLES = [
   { box: 'border-primary-deep bg-primary-deep/15', tag: 'bg-primary-deep' },
 ];
 
-const BUTTON_BASE = 'flex items-center justify-center gap-1.5 rounded-md text-xs font-semibold transition';
+const BUTTON_BASE = 'flex items-center justify-center gap-1.5 rounded-md text-base font-semibold transition';
 const BUTTON_STYLES = {
   primary: 'bg-primary text-white hover:bg-primary-deep px-3 py-2.5',
   secondary: 'border border-hairline bg-surface text-slate hover:border-primary hover:text-primary px-3 py-2.5',
@@ -88,7 +88,7 @@ function AnalysisOverlay({ annotations, currentWall, paint }) {
               className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-lg border-2 border-dashed ${style.box}`}
             >
               <span
-                className={`absolute max-w-[calc(100%-0.5rem)] truncate rounded-sm px-1.5 py-0.5 text-[9px] font-bold text-white shadow-overlay ${corner} ${style.tag}`}
+                className={`absolute max-w-[calc(100%-0.5rem)] truncate rounded-sm px-1.5 py-0.5 text-base font-bold text-white shadow-overlay ${corner} ${style.tag}`}
               >
                 {a.label}
               </span>
@@ -100,7 +100,7 @@ function AnalysisOverlay({ annotations, currentWall, paint }) {
             <div
               key={i}
               style={pos}
-              className="absolute max-w-[45%] -translate-x-1/2 -translate-y-1/2 truncate rounded-sm border border-chip-border bg-chip px-2 py-1 text-[10px] font-semibold text-secondary shadow-overlay"
+              className="absolute max-w-[45%] -translate-x-1/2 -translate-y-1/2 truncate rounded-sm border border-chip-border bg-chip px-2 py-1 text-base font-semibold text-secondary shadow-overlay"
             >
               ☀️ {a.label}
             </div>
@@ -110,7 +110,7 @@ function AnalysisOverlay({ annotations, currentWall, paint }) {
           <div
             key={i}
             style={pos}
-            className="absolute flex max-w-[60%] -translate-x-1/2 -translate-y-1/2 items-center gap-2 rounded-md border border-hairline bg-surface/95 px-2.5 py-1.5 text-[10px] shadow-overlay"
+            className="absolute flex max-w-[60%] -translate-x-1/2 -translate-y-1/2 items-center gap-2 rounded-md border border-hairline bg-surface/95 px-2.5 py-1.5 text-base shadow-overlay"
           >
             <span className="flex shrink-0">
               <span className="size-3 rounded-full border border-hairline" style={{ background: currentWall.hex }} />
@@ -220,8 +220,8 @@ export default function VisualPanel({ photo, result, loading, styleName, roomTyp
         <div className="mx-auto flex size-12 items-center justify-center rounded-lg bg-primary-soft">
           {dragging ? <ImageUp className="size-6 text-primary" /> : <Camera className="size-6 text-primary" />}
         </div>
-        <h2 className="mt-3 text-sm font-bold text-ink">{dragging ? 'Drop your room photo' : '2. Snap your room'}</h2>
-        <p className="mx-auto mt-1 max-w-sm text-xs leading-relaxed text-muted">
+        <h2 className="mt-3 text-lg font-bold text-ink">{dragging ? 'Drop your room photo' : '2. Snap your room'}</h2>
+        <p className="mx-auto mt-1 max-w-sm text-base leading-relaxed text-muted">
           Gemma 4 identifies the room, maps the empty zones, reads the wall colours, then picks 3D furniture you can place in your
           room with AR.
         </p>
@@ -229,10 +229,10 @@ export default function VisualPanel({ photo, result, loading, styleName, roomTyp
           <CameraButton mode={cameraMode} onFile={onFile} onOpenWebcam={() => setWebcamOpen(true)} />
           <PhotoButton icon={ImageUp} label="Upload" onFile={onFile} />
         </div>
-        <p className="mt-3 text-[11px] text-muted">
+        <p className="mt-3 text-base text-muted">
           {cameraMode === 'none' ? 'No camera found. Upload or drag & drop a photo here.' : 'or drag & drop a photo here'}
         </p>
-        <button type="button" onClick={onDemo} className="mt-3 text-xs font-semibold text-primary underline-offset-4 hover:underline">
+        <button type="button" onClick={onDemo} className="mt-3 text-base font-semibold text-primary underline-offset-4 hover:underline">
           Try the sample photo
         </button>
         {webcam}
@@ -250,14 +250,14 @@ export default function VisualPanel({ photo, result, loading, styleName, roomTyp
 
   return (
     <section className="overflow-hidden rounded-xl border border-hairline bg-surface shadow-hover">
-      <div className="grid grid-cols-3 gap-1 border-b border-hairline bg-subtle p-1.5 text-[11px]">
+      <div className="grid grid-cols-3 gap-1 border-b border-hairline bg-subtle p-1.5 text-base">
         {TABS.map(({ id, label, icon: Icon }, i) => (
           <button
             key={id}
             type="button"
             disabled={!result || loading}
             onClick={() => setTab(id)}
-            className={`flex items-center justify-center gap-1.5 rounded-md px-2 py-2 transition disabled:opacity-40 ${
+            className={`flex flex-col items-center justify-center gap-0.5 rounded-md px-1 py-1.5 leading-tight transition disabled:opacity-40 ${
               view === id ? 'bg-primary font-bold text-white shadow-hover' : 'font-medium text-muted hover:text-ink'
             }`}
           >
@@ -273,7 +273,7 @@ export default function VisualPanel({ photo, result, loading, styleName, roomTyp
         {dragging && (
           <div className="pointer-events-none absolute inset-0 z-30 flex flex-col items-center justify-center gap-2 border-2 border-dashed border-primary bg-primary-soft/90">
             <ImageUp className="size-7 text-primary" />
-            <p className="text-xs font-bold text-primary">Drop to analyse a new photo</p>
+            <p className="text-base font-bold text-primary">Drop to analyse a new photo</p>
           </div>
         )}
         {view === 'render' ? (
@@ -283,24 +283,24 @@ export default function VisualPanel({ photo, result, loading, styleName, roomTyp
             ) : (
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 px-6 text-center">
                 {render.status === 'error' ? (
-                  <p className="text-xs leading-relaxed text-error-ink">
+                  <p className="text-base leading-relaxed text-error-ink">
                     The free render service is busy (limit: 1 image per 45 seconds). Wait a moment, then tap “New variation”.
                   </p>
                 ) : (
                   <>
                     <LoaderCircle className="size-7 animate-spin text-primary" />
-                    <p className="text-xs font-semibold text-ink">Painting the design concept… (10–30 s)</p>
+                    <p className="text-base font-semibold text-ink">Painting the design concept… (10–30 s)</p>
                   </>
                 )}
               </div>
             )}
-            <span className="absolute top-3 left-3 flex items-center gap-1 rounded-sm bg-primary px-2.5 py-1 text-[10px] font-bold text-white shadow-overlay">
+            <span className="absolute top-3 left-3 flex items-center gap-1 rounded-sm bg-primary px-2.5 py-1 text-base font-bold text-white shadow-overlay">
               <Sparkles className="size-3" /> DESAINAR Concept (After)
             </span>
             <button
               type="button"
               onClick={() => setVariant((v) => v + 1)}
-              className="absolute right-3 bottom-3 flex items-center gap-1.5 rounded-md border border-hairline bg-surface/95 px-3 py-1.5 text-[11px] font-semibold text-primary shadow-overlay backdrop-blur-md hover:border-primary"
+              className="absolute right-3 bottom-3 flex items-center gap-1.5 rounded-md border border-hairline bg-surface/95 px-3 py-1.5 text-base font-semibold text-primary shadow-overlay backdrop-blur-md hover:border-primary"
             >
               <RefreshCw className="size-3" /> New variation
             </button>
@@ -318,8 +318,8 @@ export default function VisualPanel({ photo, result, loading, styleName, roomTyp
             {loading && (
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-surface/75 backdrop-blur-[2px]">
                 <LoaderCircle className="size-7 animate-spin text-primary" />
-                <p className="text-xs font-semibold text-ink">{STAGES[stage]}</p>
-                <p className="text-[10px] text-muted">Gemma 4 is analysing your photo (~20 s)</p>
+                <p className="text-base font-semibold text-ink">{STAGES[stage]}</p>
+                <p className="text-base text-muted">Gemma 4 is analysing your photo (~20 s)</p>
               </div>
             )}
           </div>
@@ -334,19 +334,19 @@ export default function VisualPanel({ photo, result, loading, styleName, roomTyp
         {webcam}
       </div>
 
-      <div className="flex items-center justify-between gap-2 border-t border-hairline px-3 py-2">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-t border-hairline px-3 py-2">
         <div className="flex min-w-0 flex-wrap items-center gap-1.5">
           {room && (
-            <span className="rounded-sm bg-primary px-2 py-0.5 text-[10px] font-bold tracking-wider text-white uppercase">{room.label}</span>
+            <span className="rounded-sm bg-primary px-2 py-0.5 text-base font-bold tracking-wider text-white uppercase">{room.label}</span>
           )}
-          <span className="rounded-sm border border-hairline bg-subtle px-2 py-0.5 text-[10px] text-slate">
+          <span className="rounded-sm border border-hairline bg-subtle px-2 py-0.5 text-base text-slate">
             Style: <strong className="text-primary">{styleName}</strong>
           </span>
         </div>
-        <span className="shrink-0 text-[10px] font-medium text-secondary">{captions[view]}</span>
+        <span className="text-base font-medium text-secondary">{captions[view]}</span>
       </div>
 
-      <div className="no-scrollbar flex items-center gap-1.5 overflow-x-auto border-t border-hairline bg-subtle p-3 text-[11px]">
+      <div className="no-scrollbar flex items-center gap-1.5 overflow-x-auto border-t border-hairline bg-subtle p-3 text-base">
         <span className="mr-1 shrink-0 text-muted">Room:</span>
         {ROOM_TYPES.map((r) => (
           <button
