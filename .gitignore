@@ -1,0 +1,9 @@
+node_modules
+dist
+.vercel
+.DS_Store
+
+# Secrets: API key hanya di .env.local / Vercel env
+.env
+.env.*
+!.env.example
