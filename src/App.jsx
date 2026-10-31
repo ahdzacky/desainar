@@ -116,6 +116,7 @@ export default function App() {
           <p className="-mt-3 text-center text-[11px] text-stone-500">
             Dianalisa oleh <span className="font-mono text-amber-400/90">{result.meta.model}</span> dalam{' '}
             {(result.meta.latency_ms / 1000).toFixed(1)} detik
+            {result.meta.fallback && <span className="block text-amber-300/80">Mode Deep sedang sibuk, dialihkan ke Instant.</span>}
           </p>
         )}
 

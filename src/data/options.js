@@ -45,8 +45,8 @@ export const ROOM_TYPES = [
 
 // Gemma 4 engines on the Gemini API. The API only accepts these model ids.
 export const MODES = {
-  instant: { model: 'gemma-4-26b-a4b-it', label: '26B-A4B', title: 'Instant (MoE)' },
-  deep: { model: 'gemma-4-31b-it', label: '31B Dense', title: 'Deep Designer' },
+  instant: { model: 'gemma-4-26b-a4b-it', label: '26B-A4B', title: 'Instant (MoE, 4B aktif)' },
+  deep: { model: 'gemma-4-31b-it', label: '31B Dense', title: 'Deep Designer (31B dense)' },
 };
 
 export const findStyle = (id) => STYLES.find((s) => s.id === id);

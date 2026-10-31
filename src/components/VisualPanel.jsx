@@ -220,7 +220,7 @@ export default function VisualPanel({ photo, result, loading, styleName, roomTyp
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-stone-950/70 backdrop-blur-[2px]">
                 <LoaderCircle className="size-7 animate-spin text-amber-400" />
                 <p className="text-xs font-semibold text-amber-200">{STAGES[stage]}</p>
-                <p className="text-[10px] text-stone-400">Gemma 4 sedang menganalisa foto Anda</p>
+                <p className="text-[10px] text-stone-400">Gemma 4 sedang menganalisa foto Anda (±20 detik)</p>
               </div>
             )}
           </div>
