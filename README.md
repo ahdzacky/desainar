@@ -18,7 +18,8 @@ Browser (HP)
  │     └─ Vercel Function → Gemini API: Gemma 4 (gemma-4-26b-a4b-it / gemma-4-31b-it)
  │           └─ JSON divalidasi: item_id harus ada di katalog, koordinat & hex dicek
  ├─ Gambar Analisa: anotasi Gemma digambar di atas foto (koordinat %)
- ├─ Desain AI: prompt dari Gemma → Pollinations FLUX (dari browser dulu, lalu proxy /api/render)
+ ├─ Desain AI: prompt dari Gemma → Pollinations (dari browser dulu, lalu proxy /api/render)
+ │     tanpa key: model gratis "sana" (alias DreamShaper 8 LCM) · dengan key: FLUX.1 [schnell]
  └─ AR: Google <model-viewer> (WebXR / Scene Viewer / Quick Look)
 ```
 

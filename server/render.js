@@ -1,7 +1,9 @@
-// Concept render proxy for Pollinations (open-weight FLUX text-to-image).
-// Without a key the classic endpoint allows one image per 45 s per IP and answers
-// 402 (sometimes an *image* of an error message), so only a 200 image response is
-// passed on. With POLLINATIONS_KEY (a secret sk_ key) there is no per-IP limit.
+// Concept render proxy for Pollinations text-to-image.
+// Without a key the classic endpoint serves one free model ("sana", an alias of
+// lykon/dreamshaper-8-lcm), allows one image per 45 s per IP and answers 402
+// (sometimes an *image* of an error message), so only a 200 image response is
+// passed on. With POLLINATIONS_KEY (a secret sk_ key) it uses FLUX.1 [schnell]
+// on gen.pollinations.ai, with no per-IP limit.
 const BUDGET_MS = 50_000;
 
 function httpError(statusCode, message) {

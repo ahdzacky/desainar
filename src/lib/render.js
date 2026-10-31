@@ -1,6 +1,6 @@
-// Concept renders from Pollinations (open-weight FLUX text-to-image).
-// The free tier allows one image per 45 s per IP and answers 402 when it is used
-// up, so every response is checked before it is shown.
+// Concept renders from Pollinations text-to-image (free model "sana", an alias of
+// DreamShaper 8 LCM). The free tier allows one image per 45 s per IP and answers
+// 402 when it is used up, so every response is checked before it is shown.
 
 const POLLINATIONS = 'https://image.pollinations.ai/prompt/';
 
