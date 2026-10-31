@@ -1,6 +1,6 @@
 # DESAINAR — Rencana Build Hack Day
 
-**Event:** Hacktoberfest Hack Day Kota Batam x Batam Innovation Center (MLH), Sabtu 31 Oktober 2026, **11:00–16:00 WIB**
+**Event:** Hacktoberfest Hack Day Kota Batam x Batam Innovation Center (MLH), Sabtu 31 Oktober 2026. Registrasi 10:00, **build 11:00–15:00 WIB**, demo 15:00–16:00. (Revisi 14:05: build berakhir 15:00, bukan 16:00. Code freeze 14:40, submit sebelum 14:55.)
 **Kategori yang dikejar:** Best Use of Gemma 4 · Best Open-Source AI Project
 **Tim:** 2 orang (A = coding utama, B = aset 3D, tes HP, submission)
 **Ide awal:** dokumen ide dan mockup disimpan secara lokal di `plan/`, tidak di-commit. Skema JSON yang dipakai app ada di `server/analyze.js`.
