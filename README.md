@@ -12,6 +12,8 @@
 
 Built at Hacktoberfest Hack Day Batam x Batam Innovation Center (MLH), 31 October 2026.
 
+**Live demo:** [desainar.vercel.app](https://desainar.vercel.app)
+
 ## How it works
 
 ```
@@ -56,6 +58,10 @@ AR needs HTTPS. To test it on a phone, use the Vercel deploy URL.
 | `src/data/options.js` | Design styles, room types, Gemma engines |
 | `src/components/` | UI: style picker, visual panel, colour insights, AR stage |
 | `scripts/fetch-polyhaven.mjs` | Downloads Poly Haven models and packs them into `.glb` |
+
+## Contributing
+
+Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) for local setup, 3D model guidelines, and pull request conventions.
 
 ## Credits
 
