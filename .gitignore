@@ -6,7 +6,8 @@ dist
 # Secrets: API key hanya di .env.local / Vercel env
 .env
 .env.*
-!.env.example
+.env.example
+PLAN.md
 
 /plan
 /PLAN.md
